@@ -1,0 +1,66 @@
+export const featuredCourses = [
+    {
+        id: 1,
+        title: "Web Design",
+        description: "Learn HTML, CSS, JavaScript, Tailwind, Git and Deployment from scratch",
+        duration: "12 weeks",
+        students: "50 +",
+        rating: 4.9,
+        price: "Free",
+        level: "Beginner",
+        nextClass: "Jan 15, 2024",
+    },
+    {
+        id: 2,
+        title: "UI/UX Design",
+        description: "Fundamantal design principles, Figma, and create stunning user experiences",
+        duration: "8 weeks",
+        students: "20 +",
+        rating: 4.9,
+        price: "Free",
+        level: "Beginner",
+        nextClass: "Jan 22, 2024",
+    },
+    {
+        id: 3,
+        title: "Java Programming",
+        description: "Learn Java from scratch, covering OOP, data structures, and hands-on projects",
+        duration: "6 weeks",
+        students: "-",
+        rating: 4.9,
+        price: "Free",
+        level: "Beginner",
+        nextClass: "Jan 29, 2024",
+        comingSoon: true,
+    },
+    {
+        id: 4,
+        title: "Python Programming",
+        description: "Start your Python journey: learn the basics, write simple programs, and build confidence with hands-on practice.",
+        duration: "6 weeks",
+        students: "-",
+        rating: 4.9,
+        price: "Free",
+        level: "Beginner",
+        nextClass: "Jan 29, 2024",
+        comingSoon: true,
+    },
+]
+
+export const steps = [
+    {
+        number: "01",
+        title: "View Courses",
+        description: "Browse our comprehensive course catalog and find the perfect fit for your learning goals.",
+    },
+    {
+        number: "02",
+        title: "Register",
+        description: "Complete your enrollment with secure payment and get instant access to course materials.",
+    },
+    {
+        number: "03",
+        title: "Join Live via Google Meet",
+        description: "Join our online class on Google Meet for real-time learning, interactive discussions, and hands-on guidance from experienced instructors.",
+    },
+]
