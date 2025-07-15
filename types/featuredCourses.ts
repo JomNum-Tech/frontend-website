@@ -56,7 +56,7 @@ export const steps = [
     {
         number: "02",
         title: "Register",
-        description: "Complete your enrollment with secure payment and get instant access to course materials.",
+        description: "Complete your enrollment with secure payment and get access learning online classes",
     },
     {
         number: "03",

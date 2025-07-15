@@ -33,19 +33,19 @@ export default function Navbar() {
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center space-x-2">
                             <Link
-                                href="#courses"
+                                href="#"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                             >
                                 Courses
                             </Link>
                             <Link
-                                href="#about"
+                                href="/about"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                             >
                                 About
                             </Link>
                             <Link
-                                href="#contact"
+                                href="#"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                             >
                                 Contact
