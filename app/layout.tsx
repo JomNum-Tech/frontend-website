@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "JomNum-Tech",
     images: [
       {
-        url: "https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/JomNumTech-El1XBQ46OC1eci4SAFFyiOAM6nikG1.png",
+        url: "https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/Screenshot%202025-07-15%20214359.png",
         width: 1200,
         height: 630,
         alt: "JomNum-Tech Logo"
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "JomNum-Tech | Master Web Design & Coding",
     description: "Master web design and coding with JomNum-Tech. Online classes, hands-on projects, and expert instructors.",
     images: [
-      "https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/JomNumTech-El1XBQ46OC1eci4SAFFyiOAM6nikG1.png"
+      "https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/Screenshot%202025-07-15%20214359.png"
     ],
     creator: "@jomnumtech"
   },
