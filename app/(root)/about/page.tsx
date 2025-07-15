@@ -16,7 +16,7 @@ export default function AboutPage() {
       <HeroSection />
 
       {/* Stats Section */}
-      <StatSection />s
+      <StatSection />
 
       {/* Our Story Section */}
       <StorySection />

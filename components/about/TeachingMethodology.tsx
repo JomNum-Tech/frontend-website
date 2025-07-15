@@ -1,27 +1,69 @@
+"use client";
+
 import { Award, Code, Laptop, Users } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+
+// Animation variants
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const imageAnim = {
+  hidden: { opacity: 0, x: 30 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.8 } }
+};
+
+const sectionTitle = {
+  hidden: { opacity: 0, y: -20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+};
 
 export default function TeachingMethodoloySection() {
     return (
         <>
             <section className="py-24 bg-gradient-to-b from-blue-50 via-white to-blue-100">
                 <div className="container mx-auto px-12">
-                    <div className="text-center mb-20">
+                    <motion.div 
+                        className="text-center mb-20"
+                        variants={sectionTitle}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true }}
+                    >
                         <h2 className="text-4xl lg:text-5xl font-extrabold mb-5 text-blue-800 tracking-tight drop-shadow-sm">
                             Our Teaching Methodology
                         </h2>
-                        <p className="text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                        <motion.p 
+                            className="text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            viewport={{ once: true }}
+                        >
                             We have refined our approach based on thousands of hours of live teaching and student feedback.
-                        </p>
-                    </div>
+                        </motion.p>
+                    </motion.div>
 
                     <div className="grid lg:grid-cols-2 gap-20 items-center">
-                        <div className="space-y-10">
+                        <motion.div 
+                            className="space-y-10"
+                            variants={container}
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true, margin: "-100px" }}
+                        >
                             {[
                                 {
                                     icon: <Code className="w-7 h-7 text-blue-700 group-hover:text-blue-900 transition-colors duration-200" />,
                                     title: "Online Teaching Sessions",
-                                    desc: "Watch instructors code in real-time, see their thought process, and learn debugging techniques that you can’t get from pre-recorded videos.",
+                                    desc: "Watch instructors code in real-time, see their thought process, and learn debugging techniques that you can't get from pre-recorded videos.",
                                     accent: "from-blue-100 via-blue-200 to-blue-300"
                                 },
                                 {
@@ -43,9 +85,11 @@ export default function TeachingMethodoloySection() {
                                     accent: "from-pink-100 via-pink-200 to-blue-200"
                                 }
                             ].map((item, i) => (
-                                <div
+                                <motion.div
                                     key={i}
+                                    
                                     className="group flex items-start space-x-5 bg-white/90 border border-blue-100 hover:border-blue-400 shadow-lg hover:shadow-2xl transition-all duration-200 rounded-2xl p-6 relative overflow-hidden"
+                                    whileHover={{ y: -5 }}
                                 >
                                     {/* Decorative gradient accent */}
                                     <div className={`absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br ${item.accent} opacity-30 rounded-full blur-2xl z-0 pointer-events-none`} />
@@ -56,11 +100,17 @@ export default function TeachingMethodoloySection() {
                                         <h3 className="text-2xl font-bold mb-2 text-blue-800 drop-shadow-sm">{item.title}</h3>
                                         <p className="text-base text-gray-700 leading-relaxed">{item.desc}</p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
 
-                        <div className="relative flex justify-center items-center">
+                        <motion.div 
+                            className="relative flex justify-center items-center"
+                            variants={imageAnim}
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true }}
+                        >
                             <div className="relative">
                                 <Image
                                     src="https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/JomNumTech-El1XBQ46OC1eci4SAFFyiOAM6nikG1.png"
@@ -70,14 +120,30 @@ export default function TeachingMethodoloySection() {
                                     className="rounded-3xl shadow-2xl border-4 border-blue-100"
                                     priority
                                 />
-                                <div className="absolute -top-7 -left-7 bg-white/95 p-4 rounded-xl shadow-xl border border-blue-200 flex items-center space-x-3">
+                                <motion.div 
+                                    className="absolute -top-7 -left-7 bg-white/95 p-4 rounded-xl shadow-xl border border-blue-200 flex items-center space-x-3"
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                    viewport={{ once: true }}
+                                >
                                     <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                                     <span className="text-base font-semibold text-blue-700">Online Teaching</span>
-                                </div>
+                                </motion.div>
                                 {/* Decorative floating accent */}
-                                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 opacity-30 rounded-full blur-2xl z-0 pointer-events-none" />
+                                <motion.div 
+                                    className="absolute -bottom-8 -right-8 w-32 h-32 bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 opacity-30 rounded-full blur-2xl z-0 pointer-events-none"
+                                    animate={{ 
+                                        rotate: [0, 360],
+                                    }}
+                                    transition={{
+                                        duration: 20,
+                                        repeat: Infinity,
+                                        ease: "linear"
+                                    }}
+                                />
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>

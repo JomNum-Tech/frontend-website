@@ -33,30 +33,55 @@ export default function Navbar() {
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center space-x-2">
                             <Link
-                                href="#"
-                                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                            >
-                                Courses
-                            </Link>
-                            <Link
                                 href="/about"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                             >
                                 About
                             </Link>
-                            <Link
-                                href="#"
-                                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                            >
-                                Contact
-                            </Link>
-                            <Button
-                                variant="default"
-                                size="sm"
-                                className="ml-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
-                            >
-                                Sign In
-                            </Button>
+                            <span className="relative inline-flex items-center">
+                                <span
+                                    className="text-base font-semibold px-4 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
+                                    tabIndex={-1}
+                                    aria-disabled="true"
+                                >
+                                    Courses
+                                    <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
+                                        ⚒️
+                                    </span>
+                                </span>
+                            </span>
+                            <span className="relative inline-flex items-center">
+                                <span
+                                    className="text-base font-semibold px-4 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
+                                    tabIndex={-1}
+                                    aria-disabled="true"
+                                >
+                                    Contact
+                                    <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
+                                        ⚒️
+                                    </span>
+                                </span>
+                            </span>
+                            <div className="relative inline-block">
+                                <div className="group relative inline-block">
+                                    <Button
+                                        variant="default"
+                                        size="sm"
+                                        className="ml-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
+                                        disabled
+                                        aria-describedby="signin-tooltip"
+                                    >
+                                        Sign In
+                                    </Button>
+                                    <div
+                                        id="signin-tooltip"
+                                        className="absolute left-1/2 -translate-x-1/2 mt-2 w-max px-3 py-2 rounded bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none z-50"
+                                        role="tooltip"
+                                    >
+                                        Sign in is coming soon!
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         {/* Mobile Nav */}
                         <div className="md:hidden flex items-center">
@@ -85,35 +110,62 @@ export default function Navbar() {
                     {mobileMenuOpen && (
                         <div className="md:hidden mt-3 bg-white rounded-xl shadow-lg border border-blue-100 py-4 px-6 absolute left-0 right-0 top-[70px] z-40 mx-4">
                             <nav className="flex flex-col space-y-2">
+
                                 <Link
-                                    href="#courses"
-                                    className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Courses
-                                </Link>
-                                <Link
-                                    href="#about"
+                                    href="/about"
                                     className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     About
                                 </Link>
-                                <Link
-                                    href="#contact"
-                                    className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Contact
-                                </Link>
-                                <Button
-                                    variant="default"
-                                    size="sm"
-                                    className="w-full mt-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Sign In
-                                </Button>
+                                <span className="relative inline-flex items-center">
+                                    <span
+                                        className="text-base font-semibold px-3 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
+                                        tabIndex={-1}
+                                        aria-disabled="true"
+                                    >
+                                        Courses
+                                        <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
+                                            ⚒️
+                                        </span>
+                                    </span>
+                                </span>
+                                <span className="relative inline-flex items-center">
+                                    <span
+                                        className="text-base font-semibold px-3 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
+                                        tabIndex={-1}
+                                        aria-disabled="true"
+                                    >
+                                        Contact
+                                        <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
+                                            ⚒️
+                                        </span>
+                                    </span>
+                                </span>
+                                <div className="relative w-full">
+                                    <div className="relative group w-full">
+                                        <Button
+                                            variant="default"
+                                            size="sm"
+                                            className="w-full mt-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            disabled
+                                            aria-describedby="signin-tooltip"
+                                        >
+                                            Sign In
+                                        </Button>
+                                        <span className="absolute top-1 right-3 bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded border border-yellow-300 uppercase shadow-sm">
+                                            ⚒️
+                                        </span>
+                                    
+                                        <div
+                                            id="signin-tooltip"
+                                            className="absolute left-1/2 -translate-x-1/2 -top-10 z-50 w-max px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none"
+                                        >
+                                            Sign in coming soon!
+                                        </div>
+                                    </div>
+                                </div>
                             </nav>
                         </div>
                     )}
