@@ -150,7 +150,7 @@ export default function HeaderSection() {
               transition={{ delay: 0.5 }}
               viewport={{ once: true }}
             >
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-sm font-semibold text-blue-900">New Course Teaching: <span className="text-primary font-bold">UX/UI</span></span>
             </motion.div>
           </motion.div>
