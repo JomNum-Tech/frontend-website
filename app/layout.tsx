@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "JomNum-Tech | Master Web Design & Coding",
     description: "Master web design and coding with JomNum-Tech. Online classes, hands-on projects, and expert instructors.",
-    url: "https://jomnumtech.naktech.com",
+    url: "https://jomnumtech.naktech.pro",
     siteName: "JomNum-Tech",
     images: [
       {
