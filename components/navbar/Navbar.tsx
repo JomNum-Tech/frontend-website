@@ -33,6 +33,12 @@ export default function Navbar() {
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center space-x-2">
                             <Link
+                                href="/courses"
+                                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                            >
+                                Courses
+                            </Link>
+                            <Link
                                 href="/contact"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                             >
@@ -44,13 +50,14 @@ export default function Navbar() {
                             >
                                 About
                             </Link>
+
                             <span className="relative inline-flex items-center">
                                 <span
                                     className="text-base font-semibold px-4 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
                                     tabIndex={-1}
                                     aria-disabled="true"
                                 >
-                                    Courses
+                                    Upcoming Pages
                                     <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
                                         ⚒️
                                     </span>
@@ -106,6 +113,13 @@ export default function Navbar() {
                         <div className="md:hidden mt-3 bg-white rounded-xl shadow-lg border border-blue-100 py-4 px-6 absolute left-0 right-0 top-[70px] z-40 mx-4">
                             <nav className="flex flex-col space-y-2">
                                 <Link
+                                    href="/courses"
+                                    className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Courses
+                                </Link>
+                                <Link
                                     href="/contact"
                                     className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                                     onClick={() => setMobileMenuOpen(false)}
@@ -125,7 +139,7 @@ export default function Navbar() {
                                         tabIndex={-1}
                                         aria-disabled="true"
                                     >
-                                        Courses
+                                        Upcoming Pages
                                         <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
                                             ⚒️
                                         </span>
