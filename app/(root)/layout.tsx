@@ -8,6 +8,7 @@ import { MaintenanceBanner } from "@/components/banner/MaintenanceBanner";
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -90,6 +91,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

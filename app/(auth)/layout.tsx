@@ -1,11 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
-import { MaintenanceBanner } from "@/components/banner/MaintenanceBanner";
 
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import { AdminSidebar } from "@/components/admin/AdminSidebar/AdminSidebar";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,14 +26,8 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
-        >
-          <AdminSidebar />
-          <main className="lg:ml-64">
-            {children}
-          </main>
-          <div className="fixed z-50 bottom-0 left-0 right-0">
-            <MaintenanceBanner />  
-          </div>
+        >      
+          {children}        
         </body>
       </html>
     </ClerkProvider>

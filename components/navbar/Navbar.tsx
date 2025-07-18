@@ -4,13 +4,24 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "../ui/button"
 import { useState } from "react"
-import { useUser, UserButton } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { SignInModal } from "../auth/SignInModal";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "../ui/dropdown-menu";
+import { LogOut, Settings, User } from "lucide-react";
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [signInOpen, setSignInOpen] = useState(false);
-    const { isSignedIn, isLoaded } = useUser();
+    const { isSignedIn, isLoaded, user } = useUser();
+    const { signOut } = useClerk();
 
     return (
         <>
@@ -55,33 +66,66 @@ export default function Navbar() {
                                 About
                             </Link>
 
-                            <span className="relative inline-flex pr-6 items-center">
-                                <span
-                                    className="text-base font-semibold px-4 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
-                                    tabIndex={-1}
-                                    aria-disabled="true"
-                                >
-                                    Upcoming Pages
-                                    <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
-                                        ⚒️
-                                    </span>
-                                </span>
-                            </span>
-
-                            <div className="relative inline-block">
+                            <div className="ml-6 relative inline-block">
                                 <div className="group relative inline-block">
                                     {isLoaded && isSignedIn ? (
-                                        <UserButton afterSignOutUrl="/" />
+                                        <DropdownMenu >
+                                            <DropdownMenuTrigger asChild>
+                                                <button className="focus:outline-none">
+                                                    <Avatar>
+                                                        <AvatarImage src={user?.imageUrl} alt={user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User"} />
+                                                        <AvatarFallback>
+                                                            {user?.firstName?.[0] || user?.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                </button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent className="w-64 mt-4 rounded-xl mr-8 shadow-xl border border-blue-100 bg-white/95 p-0">
+                                                <DropdownMenuLabel className="flex flex-col items-start gap-2 px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-white rounded-t-xl">
+                                                    <div className="flex items-center gap-3">
+                                                        <Avatar className="w-10 h-10">
+                                                            <AvatarImage src={user?.imageUrl} alt={user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User"} />
+                                                            <AvatarFallback>
+                                                                {user?.firstName?.[0] || user?.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                        <div>
+                                                            <span className="font-semibold text-base text-blue-900">{user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User"}</span>
+                                                            <div className="text-xs text-gray-500">{user?.emailAddresses?.[0]?.emailAddress}</div>
+                                                        </div>
+                                                    </div>
+                                                </DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem asChild className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800">
+                                                    <Link href="/profile" className="flex items-center gap-2 w-full">
+                                                        <span className="material-symbols-outlined text-blue-500 text-lg"><User className="w-8 h-8 text-blue-500 mr-2"/></span>
+                                                        Profile
+                                                        <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                                                            Beta
+                                                        </span>
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem
+                                                    onClick={() => signOut()}
+                                                    className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
+                                                >
+                                                    <span className="material-symbols-outlined text-red-500 text-lg"><LogOut className="w-8 h-8 text-red-500 mr-2"/></span>
+                                                    Logout
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     ) : (
-                                        <Button
-                                            variant="default"
-                                            size="sm"
-                                            className="ml-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
-                                            aria-describedby="signin-tooltip"
-                                            onClick={() => setSignInOpen(true)}
-                                        >
-                                            Sign In
-                                        </Button>
+                                        <Link href="/login">
+                                            <Button
+                                                variant="default"
+                                                size="sm"
+                                                className="ml-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
+                                                aria-describedby="signin-tooltip"
+                                            >
+                                                Sign In
+                                            </Button>
+                                        </Link>
                                     )}
                                 </div>
                             </div>
@@ -134,24 +178,58 @@ export default function Navbar() {
                                 >
                                     About
                                 </Link>
-                                <span className="relative inline-flex items-center">
-                                    <span
-                                        className="text-base font-semibold px-3 py-2 rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed select-none flex items-center"
-                                        tabIndex={-1}
-                                        aria-disabled="true"
-                                    >
-                                        Upcoming Pages
-                                        <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-200 text-yellow-800 border border-yellow-300 uppercase">
-                                            ⚒️
-                                        </span>
-                                    </span>
-                                </span>
 
-                                <div className="relative w-full">
+                                <div className="ml-6 relative w-full">
                                     <div className="relative group w-full">
                                         {isLoaded && isSignedIn ? (
                                             <div className="flex justify-center w-full mt-2">
-                                                <UserButton afterSignOutUrl="/" />
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <button className="focus:outline-none">
+                                                            <Avatar>
+                                                                <AvatarImage src={user?.imageUrl} alt={user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User"} />
+                                                                <AvatarFallback>
+                                                                    {user?.firstName?.[0] || user?.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                                                                </AvatarFallback>
+                                                            </Avatar>
+                                                        </button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent className="w-64 mt-2 rounded-xl shadow-xl border border-blue-100 bg-white/95 p-0">
+                                                        <DropdownMenuLabel className="flex flex-col items-start gap-2 px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-white rounded-t-xl">
+                                                            <div className="flex items-center gap-3">
+                                                                <Avatar className="w-10 h-10">
+                                                                    <AvatarImage src={user?.imageUrl} alt={user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User"} />
+                                                                    <AvatarFallback>
+                                                                        {user?.firstName?.[0] || user?.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                                <div>
+                                                                    <span className="font-semibold text-base text-blue-900">{user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User"}</span>
+                                                                    <div className="text-xs text-gray-500">{user?.emailAddresses?.[0]?.emailAddress}</div>
+                                                                </div>
+                                                            </div>
+                                                        </DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800">
+                                                            <Link href="/profile" className="flex items-center gap-2 w-full">
+                                                                <span className="material-symbols-outlined text-blue-500 text-lg"><User className="w-8 h-8 text-blue-500 mr-2"/></span>
+                                                                Profile
+                                                                <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                                                            Beta
+                                                        </span>
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                       
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem
+                                                            onClick={() => signOut()}
+                                                            className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
+                                                        >
+                                                            <span className="material-symbols-outlined text-red-500 text-lg">logout</span>
+                                                            Logout
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </div>
                                         ) : (
                                             <Button
