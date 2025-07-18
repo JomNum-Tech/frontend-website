@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { Users, LogOut, Menu, X, Shield, BarChart } from "lucide-react";
+import { Users, LogOut, Menu, X, Shield, BarChart, HammerIcon, Table } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { AdminSidebarProps, NavItem } from "../../../types/sidebar/types";
@@ -13,35 +13,32 @@ import { UserRole } from "@/types/admin/roles";
 import Image from "next/image";
 
 // Define role-based navigation items
-const getNavItems = (role: UserRole): NavItem[] => {
+const getNavItems = (role: UserRole): (NavItem & { showComingSoonBadge?: boolean })[] => {
   // Base navigation items available to all admin users
-  const baseItems: NavItem[] = [
+  const baseItems: (NavItem & { showComingSoonBadge?: boolean })[] = [
     {
       href: "/admin/users",
       label: "Users",
       icon: Users,
-      requiredRole: "admin",
+    },
+    {
+      href: "/admin/list-table",
+      label: "List Table",
+      icon: Table, 
     },
     {
       href: "/admin/role-stats",
       label: "Role Stats",
-      icon: BarChart,
-      requiredRole: "admin",
+      icon: BarChart, 
+    },
+    
+    {
+      href: "#",
+      label: "",
+      icon: HammerIcon, // Changed icon to BarChart for coming soon
+      showComingSoonBadge: true, // Use a local property for badge display
     },
   ];
-
-  // Add role-specific items
-  if (role === "admin") {
-    return [
-      ...baseItems,
-      {
-        href: "/admin/role-management",
-        label: "Role Management",
-        icon: Shield,
-        requiredRole: "admin",
-      },
-    ];
-  }
 
   return baseItems.filter(
     (item) => !item.requiredRole || item.requiredRole === role
@@ -134,17 +131,28 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
           {/* Navigation */}
           <nav className="flex-1 py-4">
             <div className="space-y-1">
-              {navItems.map((item) => (
-                <SidebarNavItem
-                  key={item.href}
-                  href={item.href}
-                  icon={item.icon}
-                  label={item.label}
-                  isActive={pathname === item.href}
-                  onClick={closeMobileSidebar}
-                  requiredRole={item.requiredRole}
-                />
-              ))}
+              {navItems.map((item) => {
+                const isComingSoon = item.showComingSoonBadge;
+                // Always pass a string to label prop, never JSX
+                const label = isComingSoon
+                  ? `${item.label} (Coming Soon)`
+                  : item.label;
+                return (
+                  <div
+                    key={item.href}
+                    className={isComingSoon ? "opacity-50 pointer-events-none select-none" : ""}
+                  >
+                    <SidebarNavItem
+                      href={item.href}
+                      icon={item.icon}
+                      label={label}
+                      isActive={pathname === item.href}
+                      onClick={closeMobileSidebar}
+                      requiredRole={item.requiredRole}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </nav>
 

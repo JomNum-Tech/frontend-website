@@ -4,7 +4,7 @@ import { ClerkUser } from './users';
 export type UserRole = 'admin' | 'student' | 'normal';
 
 // Extended ClerkUser interface with role information
-export interface ClerkUserWithRole extends ClerkUser {
+export interface ClerkUserWithRole extends Omit<ClerkUser, 'role'> {
   role: UserRole;
   publicMetadata: {
     role?: UserRole;

@@ -9,6 +9,7 @@ import { RefreshCw, AlertCircle, Users, Shield, UserCheck, Filter } from "lucide
 import { Pagination } from "@/components/admin/Pagination";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 // Simple date formatting utility
 const formatDistanceToNow = (date: Date) => {
@@ -36,9 +37,10 @@ function getClerkUserRole(user: any): UserRole {
   return "normal";
 }
 
-export default function UserTable() {
+export default function UserListTable() {
   const [activeTab, setActiveTab] = useState<UserRole | "all">("all");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [search, setSearch] = useState("");
   
   const {
     users: rawUsers,
@@ -74,6 +76,17 @@ export default function UserTable() {
     if (activeTab === "all") return rawUsers;
     return rawUsers.filter((user) => user?.role === activeTab);
   }, [rawUsers, activeTab]);
+
+  // Apply search to filteredUsers
+  const searchedUsers = useMemo(() => {
+    if (!search.trim()) return filteredUsers;
+    const q = search.trim().toLowerCase();
+    return filteredUsers.filter(user => {
+      const name = `${user.firstName || ""} ${user.lastName || ""}`.toLowerCase();
+      const email = user.emailAddresses?.[0]?.emailAddress?.toLowerCase() || "";
+      return name.includes(q) || email.includes(q);
+    });
+  }, [filteredUsers, search]);
 
   const getRoleCount = (role: UserRole | "all") => {
     if (role === "all") return users.length;
@@ -159,30 +172,87 @@ export default function UserTable() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-10">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div>
+              <h1 className="text-4xl font-extrabold text-blue-800 tracking-tight">
+                User List with Roles
+              </h1>
+              <p className="mt-2 text-base text-gray-500">
+                View all users with their assigned roles in a comprehensive table.
+              </p>
+            </div>
+            <div className="relative w-full md:w-72">
+              <Input
+                placeholder="Search by name or email..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm bg-white text-gray-800 placeholder-gray-400"
+                aria-label="Search users"
+              />
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400 pointer-events-none">
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </span>
+            </div>
+            <button
+              onClick={handleRefresh}
+              disabled={loading || isRefreshing}
+              className={`group relative inline-flex items-center px-5 py-2.5 rounded-lg shadow transition-all duration-200
+                text-sm font-semibold
+                ${
+                  loading || isRefreshing
+                    ? "bg-blue-300 text-white cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600"
+                }
+                focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
+              `}
+              aria-busy={loading || isRefreshing}
+            >
+              <span className="flex items-center">
+                <RefreshCw
+                  className={`h-5 w-5 mr-2 transition-transform duration-200 ${
+                    loading || isRefreshing ? "animate-spin" : "group-hover:rotate-[-20deg]"
+                  }`}
+                />
+                <span>{loading || isRefreshing ? "Refreshing..." : "Refresh"}</span>
+              </span>
+              {(loading || isRefreshing) && (
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-blue-200 animate-pulse" />
+              )}
+            </button>
+          </div>
+        </div>
 
         {/* Role Stats Summary */}
         <div className="mb-8">
-          <Card className="border border-blue-200 bg-white shadow-sm rounded-xl">
-            <CardContent className="pt-4 pb-4 px-4">
-              <div className="flex flex-wrap gap-3 items-center justify-start">
+          <Card className="border border-1 border-blue-200 bg-white">
+            <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 pb-2">
+              <div>
+                <CardTitle className="text-2xl font-bold text-blue-900 flex items-center gap-2">
+                  <Filter />
+                  Role Distribution
+                </CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <div className="flex flex-wrap gap-4 items-center">
                 <button
                   onClick={() => setActiveTab("all")}
-                  className={`flex items-center gap-2 px-5 py-2 rounded-full border font-semibold transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-300
-                    ${
-                      activeTab === "all"
-                        ? "bg-gradient-to-r from-blue-100 to-blue-200 border-blue-400 text-blue-900 shadow"
-                        : "bg-white border-gray-200 text-gray-700 hover:bg-blue-50 hover:border-blue-300"
-                    }
-                  `}
-                  aria-pressed={activeTab === "all"}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+                    activeTab === "all"
+                      ? "bg-blue-100 border-blue-300 text-blue-800"
+                      : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  }`}
                 >
                   <Users className="h-5 w-5" />
                   <span className="font-medium">All Users</span>
-                  <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold shadow-sm
-                    ${activeTab === "all" ? "bg-blue-200 text-blue-900" : "bg-gray-100 text-blue-700"}
-                  `}>
-                    {statsLoading ? <span className="animate-pulse">...</span> : stats?.total || users.length}
+                  <span className="ml-1 px-2 py-0.5 bg-white rounded-full text-sm font-semibold text-blue-700 shadow-sm">
+                    {statsLoading ? "..." : stats?.total || users.length}
                   </span>
                 </button>
 
@@ -190,27 +260,16 @@ export default function UserTable() {
                   <button
                     key={role}
                     onClick={() => setActiveTab(role)}
-                    className={`flex items-center gap-2 px-5 py-2 rounded-full border border-2 border-gray-100 font-semibold transition-all duration-150 focus:outline-none focus:ring-2
-                      ${
-                        activeTab === role
-                          ? `${getRoleBadgeClass(role)} border-2 shadow focus:ring-${role === "admin" ? "red" : role === "student" ? "blue" : "gray"}-200`
-                          : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300"
-                      }
-                    `}
-                    aria-pressed={activeTab === role}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+                      activeTab === role
+                        ? `${getRoleBadgeClass(role)} border-${role === "admin" ? "red" : role === "student" ? "blue" : "gray"}-300`
+                        : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                    }`}
                   >
                     {getRoleIcon(role)}
                     <span className="font-medium">{getRoleDisplayName(role)}</span>
-                    <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold shadow-sm
-                      ${activeTab === role
-                        ? role === "admin"
-                          ? "bg-red-200 text-red-900"
-                          : role === "student"
-                          ? "bg-blue-200 text-blue-900"
-                          : "bg-gray-200 text-gray-900"
-                        : "bg-gray-100 text-blue-700"}
-                    `}>
-                      {statsLoading ? <span className="animate-pulse">...</span> : stats?.[role] || getRoleCount(role)}
+                    <span className="ml-1 px-2 py-0.5 bg-white rounded-full text-sm font-semibold text-blue-700 shadow-sm">
+                      {statsLoading ? "..." : stats?.[role] || getRoleCount(role)}
                     </span>
                   </button>
                 ))}
@@ -232,7 +291,7 @@ export default function UserTable() {
             </div>
             <div className="flex items-center gap-2 rounded-lg border-1 border border-blue-900 bg-white px-6 py-1">
               <span className="text-lg font-semibold text-blue-900 tracking-tight italic">
-                Total {filteredUsers.length}
+                Total {searchedUsers.length}
               </span>
             </div>
           </CardHeader>
@@ -251,7 +310,7 @@ export default function UserTable() {
                   ))}
                 </div>
               </div>
-            ) : filteredUsers.length === 0 ? (
+            ) : searchedUsers.length === 0 ? (
               <div className="p-8 text-center text-gray-400 text-lg">
                 <span className="inline-block mb-2 text-3xl">😕</span>
                 <div>
@@ -339,7 +398,7 @@ export default function UserTable() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-100">
-                    {filteredUsers.map(user => (
+                    {searchedUsers.map(user => (
                       <tr
                         key={user.id}
                         className="transition-colors duration-150 hover:bg-blue-100/70 group cursor-pointer"
@@ -470,7 +529,7 @@ export default function UserTable() {
         </Card>
 
         {/* Pagination */}
-        {!loading && filteredUsers.length > 0 && (
+        {!loading && searchedUsers.length > 0 && (
           <div className="mt-6">
             <Pagination
               currentPage={currentPage}

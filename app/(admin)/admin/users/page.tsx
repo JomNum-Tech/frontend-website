@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useUsers } from "@/hooks/useUsers";
-import { UserTable } from "@/components/admin/UserTable";
+
 import { UserFiltersComponent } from "@/components/admin/UserFilters";
 import { Pagination } from "@/components/admin/Pagination";
 import { RoleStats } from "@/components/admin/RoleStats";
-import { BulkRoleAssignment } from "@/components/admin/BulkRoleAssignment";
-import { RefreshCw, AlertCircle, Users } from "lucide-react";
+import { RefreshCw, AlertCircle } from "lucide-react";
 import { ClerkUserWithRole } from "@/types/admin/roles";
+import UserTable from "@/components/admin/UserTable";
 
 export default function UserManagement() {
   const [roleStats, setRoleStats] = useState<Record<string, number>>({});
@@ -30,12 +30,14 @@ export default function UserManagement() {
     return rawUsers.map((user) => {
       // Extract role from publicMetadata or use 'normal' as default
       const role = (user.publicMetadata?.role as string) || "normal";
+      // Ensure role is one of the valid types
+      const validRole = ["admin", "student", "normal"].includes(role) ? role : "normal";
       return {
         ...user,
-        role: role as "admin" | "student" | "normal",
+        role: validRole as "admin" | "student" | "normal",
         publicMetadata: {
           ...user.publicMetadata,
-          role: role as "admin" | "student" | "normal",
+          role: validRole as "admin" | "student" | "normal",
         },
       } as ClerkUserWithRole;
     });
@@ -68,7 +70,7 @@ export default function UserManagement() {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-12">
           <div className="bg-red-50 border border-red-200 rounded-md p-4">
             <div className="flex">
               <AlertCircle className="h-5 w-5 text-red-400" />
@@ -97,7 +99,7 @@ export default function UserManagement() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-12">
         {/* Header */}
         <div className="mb-10">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
@@ -143,37 +145,8 @@ export default function UserManagement() {
           <RoleStats refreshInterval={60000} />
         </div>
 
-        {/* Bulk Role Assignment */}
-        <div className="mb-8">
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-5 sm:px-6 bg-gradient-to-r from-blue-50 to-indigo-50">
-              <div className="flex items-center">
-                <Users className="h-5 w-5 text-blue-500 mr-2" />
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Bulk Role Management
-                </h3>
-              </div>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                Assign roles to multiple users at once or migrate users without
-                roles.
-              </p>
-            </div>
-            <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-              <BulkRoleAssignment users={users} onSuccess={refresh} />
-            </div>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <UserFiltersComponent
-          onFiltersChange={updateFilters}
-          loading={loading}
-          roleStats={roleStats}
-          roleStatsLoading={roleStatsLoading}
-        />
-
         {/* User Table */}
-        <UserTable users={users} loading={loading} />
+        <UserTable />
 
         {/* Pagination */}
         {!loading && users.length > 0 && (

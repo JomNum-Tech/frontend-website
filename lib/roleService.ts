@@ -1,6 +1,6 @@
 import { clerkClient } from '@clerk/nextjs/server';
 import { UserRole, RoleStats, RoleUpdateResponse, RoleValidation, BulkRoleUpdateResponse } from '@/types/admin/roles';
-import { RoleError, RoleErrorCode, createRoleError, logRoleError } from '@/lib/errors/roleErrors';
+import { RoleErrorCode, createRoleError, logRoleError } from '@/lib/errors/roleErrors';
 import { withRetry } from '@/lib/errors/retryUtils';
 
 /**
@@ -10,6 +10,32 @@ import { withRetry } from '@/lib/errors/retryUtils';
 export class RoleService {
   private static readonly DEFAULT_ROLE: UserRole = 'normal';
   private static readonly VALID_ROLES: UserRole[] = ['admin', 'student', 'normal'];
+
+  /**
+   * Synchronously get role display information (safe for client-side use)
+   * @param role - The role to get info for
+   * @returns { displayName: string, colorClass: string } - Display information for the role
+   */
+  static getRoleDisplayInfo(role: UserRole | undefined): { displayName: string, colorClass: string } {
+    const validatedRole = this.validateRole(role || this.DEFAULT_ROLE).role;
+    
+    const displayNames: Record<UserRole, string> = {
+      admin: 'Administrator',
+      student: 'Student',
+      normal: 'Normal User'
+    };
+
+    const colorClasses: Record<UserRole, string> = {
+      admin: 'bg-red-100 text-red-700 border-red-200',
+      student: 'bg-blue-100 text-blue-700 border-blue-200',
+      normal: 'bg-gray-100 text-gray-700 border-gray-200'
+    };
+
+    return {
+      displayName: displayNames[validatedRole],
+      colorClass: colorClasses[validatedRole]
+    };
+  }
 
   /**
    * Get a user's role from their Clerk metadata

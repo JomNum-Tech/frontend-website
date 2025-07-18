@@ -7,7 +7,6 @@ import {
   Users,
   Shield,
   UserCheck,
-  PieChart,
 } from "lucide-react";
 import { UserFilters } from "@/types/admin/users";
 import { UserRole } from "@/types/admin/roles";
@@ -128,13 +127,13 @@ export function UserFiltersComponent({
     !!search || orderBy !== "created_at" || order !== "desc" || role !== "all";
 
   return (
-    <div className="bg-white shadow rounded-lg p-6 mb-6">
-      <div className="flex flex-col gap-4">
+    <div className="bg-white rounded-xl p-6 mb-8 border border-1 border-blue-200">
+      <div className="flex flex-col gap-6">
         {/* Search Input */}
         <div className="flex-1">
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-blue-400" />
             </div>
             <input
               type="text"
@@ -142,30 +141,30 @@ export function UserFiltersComponent({
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
               disabled={loading}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
+              className="block w-full pl-12 pr-4 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
             />
           </div>
         </div>
 
         {/* Filters Section */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-4 flex-wrap w-full">
             {/* Role Filter - Enhanced with better UI, role counts, and accessibility */}
-            <div className="relative flex-1 min-w-[200px]">
+            <div className="relative flex-1 min-w-[220px]">
               <label
                 htmlFor="role-filter"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-semibold text-gray-700 mb-1"
               >
                 <div className="flex items-center group relative">
                   {role !== "all" ? (
-                    roleIcons[role as UserRole]
+                    <span className="mr-2">{roleIcons[role as UserRole]}</span>
                   ) : (
-                    <Users className="h-4 w-4 text-gray-500 mr-1" />
+                    <Users className="h-4 w-4 text-gray-400 mr-2" />
                   )}
-                  <span>Filter by Role</span>
+                  <span>Role</span>
                   {roleStatsLoading && (
                     <span
-                      className="ml-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                      className="ml-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-blue-400 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status"
                     >
                       <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
@@ -175,10 +174,10 @@ export function UserFiltersComponent({
                   )}
 
                   {/* Tooltip explaining role filtering */}
-                  <div className="absolute left-0 top-full mt-1 w-64 p-2 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 pointer-events-none">
+                  <div className="absolute left-0 top-full mt-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20 pointer-events-none">
                     Filter users by their assigned role (Admin, Student, or
                     Normal User). Role counts are shown in parentheses.
-                    <div className="absolute left-4 -top-1 border-4 border-transparent border-b-gray-800"></div>
+                    <div className="absolute left-4 -top-2 border-4 border-transparent border-b-gray-900"></div>
                   </div>
                 </div>
               </label>
@@ -188,25 +187,25 @@ export function UserFiltersComponent({
                   value={role}
                   onChange={(e) => handleRoleChange(e.target.value)}
                   disabled={loading}
-                  className={`block w-full px-3 py-2 border rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 ${
-                    role !== "all" ? "border-blue-300" : "border-gray-300"
+                  className={`block w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all ${
+                    role !== "all" ? "border-blue-200" : "border-gray-200"
                   }`}
                   aria-label="Filter by role"
                 >
                   <option value="all">
-                    All Roles{" "}
-                    {roleStats && roleStats.total ? `(${roleStats.total})` : ""}
+                    All Roles
+                    {roleStats && roleStats.total ? ` (${roleStats.total})` : ""}
                   </option>
                   {validRoles.map((roleOption) => (
                     <option key={roleOption} value={roleOption}>
-                      {getRoleDisplayName(roleOption)}{" "}
+                      {getRoleDisplayName(roleOption)}
                       {roleStats && roleStats[roleOption] !== undefined
-                        ? `(${roleStats[roleOption]})`
+                        ? ` (${roleStats[roleOption]})`
                         : ""}
                     </option>
                   ))}
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   {role !== "all" && roleIcons[role as UserRole]}
                 </div>
               </div>
@@ -215,18 +214,19 @@ export function UserFiltersComponent({
               {role !== "all" && (
                 <div className="mt-2">
                   <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColorClass(
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${getRoleColorClass(
                       role as UserRole
-                    )}`}
+                    )} bg-opacity-10 border border-blue-200`}
                   >
                     <span className="mr-1">{roleIcons[role as UserRole]}</span>
                     {getRoleDisplayName(role as UserRole)}
                     <button
                       onClick={() => handleRoleChange("all")}
-                      className="ml-1 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-300 rounded-full"
+                      className="ml-2 text-gray-400 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-200 rounded-full transition"
                       aria-label={`Clear ${getRoleDisplayName(
                         role as UserRole
                       )} role filter`}
+                      tabIndex={0}
                     >
                       ×
                     </button>
@@ -234,55 +234,17 @@ export function UserFiltersComponent({
                 </div>
               )}
 
-              {/* Role filter description with stats */}
-              <div className="mt-1 text-xs text-gray-500 flex items-center">
-                {role === "all" ? (
-                  <>
-                    <span>Showing users with any role</span>
-                    {roleStats && !roleStatsLoading && (
-                      <span className="ml-1 flex items-center">
-                        <PieChart className="h-3 w-3 ml-1 mr-1" />
-                        {Object.entries(roleStats)
-                          .filter(
-                            ([key]) =>
-                              key !== "total" &&
-                              validRoles.includes(key as UserRole)
-                          )
-                          .map(([key, count]) => (
-                            <span
-                              key={key}
-                              className="mx-1"
-                              title={`${getRoleDisplayName(
-                                key as UserRole
-                              )}: ${count}`}
-                            >
-                              {count} {key.charAt(0).toUpperCase()}
-                            </span>
-                          ))}
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  `Filtering to only show ${getRoleDisplayName(
-                    role as UserRole
-                  ).toLowerCase()} users ${
-                    roleStats && roleStats[role] !== undefined
-                      ? `(${roleStats[role]} total)`
-                      : ""
-                  }`
-                )}
-              </div>
             </div>
 
             {/* Sort Options */}
-            <div className="flex-1 min-w-[200px]">
+            <div className="flex-1 min-w-[220px]">
               <label
                 htmlFor="sort-by"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-semibold text-gray-700 mb-1"
               >
                 <div className="flex items-center">
-                  <Filter className="h-4 w-4 text-gray-500 mr-1" />
-                  <span>Sort By</span>
+                  <Filter className="h-4 w-4 text-gray-400 mr-2" />
+                  <span>Sort</span>
                 </div>
               </label>
               <div className="flex gap-2">
@@ -298,7 +260,7 @@ export function UserFiltersComponent({
                     )
                   }
                   disabled={loading}
-                  className="block flex-1 px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
+                  className="block flex-1 px-4 py-2 border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
                 >
                   <option value="created_at">Created Date</option>
                   <option value="last_sign_in_at">Last Sign In</option>
@@ -311,7 +273,7 @@ export function UserFiltersComponent({
                     handleOrderChange(e.target.value as "asc" | "desc")
                   }
                   disabled={loading}
-                  className="block px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
+                  className="block px-4 py-2 border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
                   aria-label="Sort order"
                 >
                   <option value="desc">Newest First</option>
@@ -327,7 +289,7 @@ export function UserFiltersComponent({
               <button
                 onClick={clearFilters}
                 disabled={loading}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                className="px-5 py-2 border border-gray-200 rounded-lg text-sm font-semibold text-gray-700 bg-white hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 disabled:opacity-50 transition-all"
               >
                 Clear Filters
               </button>
@@ -337,30 +299,32 @@ export function UserFiltersComponent({
 
         {/* Active Filters Summary - Enhanced with better visual indicators */}
         {hasActiveFilters && (
-          <div className="mt-3 p-3 bg-gray-50 rounded-md border border-gray-200">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">
-              Active Filters:
+          <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100 shadow-sm">
+            <h4 className="text-sm font-semibold text-blue-700 mb-2 flex items-center gap-2">
+              <Filter className="h-4 w-4 text-blue-400" />
+              Active Filters
               {role !== "all" && search && (
-                <span className="ml-2 text-xs text-blue-600 font-normal">
-                  (Multiple filters are combined to narrow results)
+                <span className="ml-2 text-xs text-blue-500 font-normal">
+                  (Multiple filters applied)
                 </span>
               )}
             </h4>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
               {role !== "all" && (
                 <div
-                  className={`flex items-center gap-1 px-2 py-1 rounded-md ${getRoleColorClass(
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full ${getRoleColorClass(
                     role as UserRole
-                  )}`}
+                  )} bg-opacity-10 border border-blue-200 text-blue-700 text-xs font-semibold shadow-sm`}
                 >
                   <span className="mr-1">{roleIcons[role as UserRole]}</span>
-                  <span className="text-sm font-medium">
+                  <span>
                     {getRoleDisplayName(role as UserRole)}
                   </span>
                   <button
                     onClick={() => handleRoleChange("all")}
-                    className="ml-1 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    className="ml-2 text-gray-400 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200 rounded-full transition"
                     aria-label="Clear role filter"
+                    tabIndex={0}
                   >
                     <svg
                       className="w-4 h-4"
@@ -380,13 +344,14 @@ export function UserFiltersComponent({
               )}
 
               {search && (
-                <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200">
+                <div className="flex items-center gap-1 px-3 py-1 bg-white text-blue-700 rounded-full border border-blue-200 text-xs font-semibold shadow-sm">
                   <Search className="h-3 w-3" />
-                  <span className="text-sm">{search}</span>
+                  <span>{search}</span>
                   <button
                     onClick={() => handleSearchChange("")}
-                    className="ml-1 text-blue-500 hover:text-blue-700 focus:outline-none"
+                    className="ml-2 text-blue-400 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200 rounded-full transition"
                     aria-label="Clear search filter"
+                    tabIndex={0}
                   >
                     <svg
                       className="w-4 h-4"
@@ -405,23 +370,24 @@ export function UserFiltersComponent({
                 </div>
               )}
 
-              <div className="flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-md border border-gray-300">
+              <div className="flex items-center gap-1 px-3 py-1 bg-white text-gray-700 rounded-full border border-gray-200 text-xs font-semibold shadow-sm">
                 <Filter className="h-3 w-3" />
-                <span className="text-sm">
+                <span>
                   {orderBy === "created_at"
                     ? "Created Date"
                     : orderBy === "last_sign_in_at"
                     ? "Last Sign In"
                     : "Email"}
+                  {" "}
                   ({order === "desc" ? "newest first" : "oldest first"})
                 </span>
               </div>
 
               <button
                 onClick={clearFilters}
-                className="ml-auto px-2 py-1 text-xs text-red-600 hover:text-red-800 hover:underline focus:outline-none"
+                className="ml-auto px-3 py-1 text-xs text-red-600 hover:text-white hover:bg-red-500 border border-red-200 rounded-full font-semibold transition focus:outline-none focus:ring-2 focus:ring-red-200"
               >
-                Clear All Filters
+                Clear All
               </button>
             </div>
           </div>

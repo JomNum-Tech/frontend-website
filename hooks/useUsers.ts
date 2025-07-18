@@ -135,13 +135,23 @@ export function useUsers(options: UseUsersOptions = {}) {
         };
       }
 
-      // Update the user in the local state
+      // Update the user in the local state with the correct role structure
       setUsers(prevUsers => 
-        prevUsers.map(user => 
-          user.id === userId 
-            ? { ...user, role: newRole, publicMetadata: { ...user.publicMetadata, role: newRole } } 
-            : user
-        )
+        prevUsers.map(user => {
+          if (user.id === userId) {
+            // Ensure publicMetadata exists and update the role
+            const updatedMetadata = { 
+              ...(user.publicMetadata || {}), 
+              role: newRole 
+            };
+            
+            return { 
+              ...user, 
+              publicMetadata: updatedMetadata 
+            };
+          }
+          return user;
+        })
       );
       
       // Refresh role stats if they're being tracked
@@ -247,6 +257,17 @@ export function useUsers(options: UseUsersOptions = {}) {
     
     return displayNames[role] || role;
   }, []);
+  
+  // Get role color class for UI
+  const getRoleColorClass = useCallback((role: UserRole): string => {
+    const colorClasses: Record<UserRole, string> = {
+      admin: 'bg-red-100 text-red-800 border-red-200',
+      student: 'bg-blue-100 text-blue-800 border-blue-200',
+      normal: 'bg-gray-100 text-gray-800 border-gray-200'
+    };
+    
+    return colorClasses[role] || '';
+  }, []);
 
   // Initial data fetch
   useEffect(() => {
@@ -278,6 +299,7 @@ export function useUsers(options: UseUsersOptions = {}) {
     filterUsersByRole,
     currentRoleDistribution,
     getValidRoles,
-    getRoleDisplayName
+    getRoleDisplayName,
+    getRoleColorClass
   };
 }

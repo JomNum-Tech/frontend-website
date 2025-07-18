@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { UserRole, RoleUpdateResponse } from '@/types/admin/roles';
-import { ClerkUser } from '@/types/admin/users';
 import { toast } from './use-toast';
 
 interface UseRoleManagementProps {
