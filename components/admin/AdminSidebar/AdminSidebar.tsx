@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { Users, LogOut, Menu, X, Shield, BarChart, HammerIcon, Table } from "lucide-react";
+import { Users, LogOut, Menu, X, Shield, BarChart, HammerIcon, Table, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { AdminSidebarProps, NavItem } from "../../../types/sidebar/types";
@@ -18,20 +18,24 @@ const getNavItems = (role: UserRole): (NavItem & { showComingSoonBadge?: boolean
   const baseItems: (NavItem & { showComingSoonBadge?: boolean })[] = [
     {
       href: "/admin/users",
-      label: "Users",
+      label: "Overview",
       icon: Users,
     },
     {
       href: "/admin/list-table",
-      label: "List Table",
+      label: "Users",
       icon: Table, 
     },
     {
       href: "/admin/role-stats",
-      label: "Role Stats",
+      label: "Roles",
       icon: BarChart, 
     },
-    
+    {
+      href: "/admin/storage",
+      label: "Storage",
+      icon: FolderOpen,
+    },
     {
       href: "#",
       label: "",
