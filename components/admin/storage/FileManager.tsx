@@ -375,41 +375,55 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
 
       {/* Preview Dialog */}
       <Dialog open={!!selectedFile} onOpenChange={() => setSelectedFile(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{selectedFile?.name}</DialogTitle>
-            <DialogDescription>
-              {selectedFile && `${formatFileSize(selectedFile.size)} • ${formatDate(selectedFile.uploadedAt)}`}
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent className="max-w-2xl p-0 overflow-hidden">
           {selectedFile && (
-            <div className="space-y-4">
-              {selectedFile.preview ? (
-                <Image
-                  height={300}
-                  width={300}
-                  src={selectedFile.preview}
-                  alt={selectedFile.name}
-                  className="w-full max-h-96 object-contain rounded-lg"
-                />
-              ) : (
-                <div className="flex items-center justify-center h-64 bg-gray-100 rounded-lg">
-                  {getFileIcon(selectedFile.type)}
-                  <span className="ml-2 text-gray-600">{selectedFile.type}</span>
+            <div className="flex flex-col md:flex-row">
+              {/* Preview Section */}
+              <div className="flex items-center justify-center bg-gray-50 md:w-1/2 w-full min-h-[320px] p-6">
+                {selectedFile.preview ? (
+                  <Image
+                    height={320}
+                    width={320}
+                    src={selectedFile.preview}
+                    alt={selectedFile.name}
+                    className="w-full h-auto max-h-80 object-contain rounded-lg shadow"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="mb-2">{getFileIcon(selectedFile.type)}</div>
+                    <span className="text-sm text-gray-500">{selectedFile.type}</span>
+                  </div>
+                )}
+              </div>
+              {/* Details & Actions */}
+              <div className="flex flex-col justify-between md:w-1/2 w-full p-8 bg-white rounded-r-lg shadow-inner">
+                <div>
+                  <DialogHeader>
+                    <DialogTitle className="text-xl font-bold truncate text-gray-900">{selectedFile.name}</DialogTitle>
+                    <DialogDescription className="text-sm text-gray-500 mt-2 flex flex-col items-left gap-2">
+                      <span>File Size: {formatFileSize(selectedFile.size)}</span>
+                      
+                      <span>Modified: {formatDate(selectedFile.uploadedAt)}</span>
+                    </DialogDescription>
+                  </DialogHeader>
                 </div>
-              )}
-              <div className="flex justify-end space-x-2">
-                <Button
-                  variant="outline"
-                  onClick={() => copyFileUrl(selectedFile.url)}
-                >
-                  <Copy className="w-4 h-4 mr-2" />
-                  Copy URL
-                </Button>
-                <Button onClick={() => downloadFile(selectedFile)}>
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
+                <div className="flex flex-col gap-3 mt-8">
+                  <Button
+                    variant="outline"
+                    className="w-full flex items-center justify-center py-3 text-base font-medium transition-colors hover:bg-gray-100 active:bg-gray-200"
+                    onClick={() => copyFileUrl(selectedFile.url)}
+                  >
+                    <Copy className="w-5 h-5 mr-3 text-gray-600" />
+                    <span>Copy URL</span>
+                  </Button>
+                  <Button
+                    className="w-full flex items-center justify-center py-3 text-base font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                    onClick={() => downloadFile(selectedFile)}
+                  >
+                    <Download className="w-5 h-5 mr-3" />
+                    <span>Download</span>
+                  </Button>
+                </div>
               </div>
             </div>
           )}

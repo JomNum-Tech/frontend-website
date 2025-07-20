@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { Users, LogOut, Menu, X, Shield, BarChart, HammerIcon, Table, FolderOpen } from "lucide-react";
+import { Users, LogOut, Menu, X, BarChart, HammerIcon, Table, FolderOpen, Book } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { AdminSidebarProps, NavItem } from "../../../types/sidebar/types";
@@ -35,6 +35,11 @@ const getNavItems = (role: UserRole): (NavItem & { showComingSoonBadge?: boolean
       href: "/admin/storage",
       label: "Storage",
       icon: FolderOpen,
+    },
+    {
+      href: "/admin/resources",
+      label: "Resources",
+      icon: Book,
     },
     {
       href: "#",

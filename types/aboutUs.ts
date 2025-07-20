@@ -15,7 +15,7 @@ export const instructors = [
         experience: "10 years",
         specialties: ["Node.js", "Python", "AWS"],
         bio: "Ex-Netflix engineer who loves building scalable applications and mentoring the next generation.",
-        image: "/placeholder.svg?height=200&width=200",
+        image: "https://ijewzjgscgbar55p.public.blob.vercel-storage.com/image.JPG",
     },
     {
         name: "Sol Vathanak",

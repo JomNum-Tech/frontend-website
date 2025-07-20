@@ -15,13 +15,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, User, Shield } from "lucide-react";
+import { useAdminRole } from "@/hooks/useAdminRole";
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [signInOpen, setSignInOpen] = useState(false);
     const { isSignedIn, isLoaded, user } = useUser();
     const { signOut } = useClerk();
+    const { isAdmin } = useAdminRole();
 
     return (
         <>
@@ -95,6 +97,20 @@ export default function Navbar() {
                                                         </div>
                                                     </div>
                                                 </DropdownMenuLabel>
+
+                                                {isAdmin && (
+                                                    <>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild className="px-4 py-2 hover:bg-purple-50 focus:bg-purple-100 transition-colors rounded-none font-medium text-purple-800">
+                                                            <Link href="/admin/users" className="flex items-center gap-2 w-full">
+                                                                <Shield className="w-8 h-8 text-purple-500 mr-2"/>
+                                                                Admin
+                                                                
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
+
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem asChild className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800">
                                                     <Link href="/profile" className="flex items-center gap-2 w-full">
@@ -105,6 +121,9 @@ export default function Navbar() {
                                                         </span>
                                                     </Link>
                                                 </DropdownMenuItem>
+                                                
+                                                
+                                                
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem
                                                     onClick={() => signOut()}
@@ -219,13 +238,28 @@ export default function Navbar() {
                                                         </span>
                                                             </Link>
                                                         </DropdownMenuItem>
+                                                        
+                                                        {isAdmin && (
+                                                            <>
+                                                                <DropdownMenuSeparator />
+                                                                <DropdownMenuItem asChild className="px-4 py-2 hover:bg-purple-50 focus:bg-purple-100 transition-colors rounded-none font-medium text-purple-800">
+                                                                    <Link href="/admin" className="flex items-center gap-2 w-full">
+                                                                        <Shield className="w-8 h-8 text-purple-500 mr-2"/>
+                                                                        Admin Dashboard
+                                                                        <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-purple-300 text-purple-900 border border-purple-400 uppercase shadow-sm">
+                                                                            Admin
+                                                                        </span>
+                                                                    </Link>
+                                                                </DropdownMenuItem>
+                                                            </>
+                                                        )}
                                                        
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem
                                                             onClick={() => signOut()}
                                                             className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
                                                         >
-                                                            <span className="material-symbols-outlined text-red-500 text-lg">logout</span>
+                                                            <span className="material-symbols-outlined text-red-500 text-lg"><LogOut className="w-8 h-8 text-red-500 mr-2"/></span>
                                                             Logout
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
