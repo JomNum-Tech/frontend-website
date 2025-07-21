@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
+import React from "react"; // Added missing import for React
 
 interface FileManagerProps {
   refreshTrigger: number;
@@ -38,6 +39,9 @@ interface FileItem {
 
 export function FileManager({ refreshTrigger }: FileManagerProps) {
   const [files, setFiles] = useState<FileItem[]>([]);
+  const [folders, setFolders] = useState<string[]>([]);
+  const [currentDir, setCurrentDir] = useState<string>(""); // root
+  const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
@@ -46,23 +50,23 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchFiles();
-  }, [refreshTrigger]);
+    fetchFoldersAndFiles(currentDir);
+    // Update breadcrumb
+    setBreadcrumb(currentDir ? currentDir.split("/").filter(Boolean) : []);
+    // eslint-disable-next-line
+  }, [refreshTrigger, currentDir]);
 
-  const fetchFiles = async () => {
+  const fetchFoldersAndFiles = async (directory: string) => {
     try {
       setLoading(true);
-
-      // Fetch files from a specific directory in Vercel Blob Storage
-      // For example, list all files under the "uploads/" directory
-      const directory = "admin-uploads"; // Change this to your desired directory
-      const response = await fetch(`/api/admin/storage/files?directory=${encodeURIComponent(directory)}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch files');
-      }
-      const data = await response.json();
-      // If preview is not present, fallback to url for images
-      const filesWithPreview = (data.files || []).map((file: FileItem) => ({
+      // Fetch folders
+      const folderRes = await fetch(`/api/admin/storage/files?directory=${encodeURIComponent(directory)}&listFolders=true`);
+      const folderData = await folderRes.json();
+      setFolders(folderData.folders || []);
+      // Fetch files
+      const fileRes = await fetch(`/api/admin/storage/files?directory=${encodeURIComponent(directory)}`);
+      const fileData = await fileRes.json();
+      const filesWithPreview = (fileData.files || []).map((file: FileItem) => ({
         ...file,
         preview: file.preview || (file.type && file.type.startsWith('image/') ? file.url : undefined)
       }));
@@ -70,7 +74,7 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to load files",
+        description: "Failed to load files or folders",
         variant: "destructive",
       });
     } finally {
@@ -93,7 +97,7 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
         description: "File deleted successfully",
       });
 
-      fetchFiles();
+      fetchFoldersAndFiles(currentDir); // Refresh files in the current directory
     } catch (error) {
       toast({
         title: "Error",
@@ -171,6 +175,17 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
     return matchesSearch && matchesFilter;
   });
 
+  // Breadcrumb navigation
+  const handleBreadcrumbClick = (idx: number) => {
+    const newDir = breadcrumb.slice(0, idx + 1).join("/");
+    setCurrentDir(newDir);
+  };
+
+  // Folder click
+  const handleFolderClick = (folder: string) => {
+    setCurrentDir(currentDir ? `${currentDir}/${folder}` : folder);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -184,6 +199,39 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
 
   return (
     <div className="space-y-6">
+      {/* Breadcrumb Navigation */}
+      <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+        <button onClick={() => setCurrentDir("")} className="hover:underline font-medium">Root</button>
+        {breadcrumb.map((crumb, idx) => (
+          <React.Fragment key={idx}>
+            <span key={`sep-${idx}`}>/</span>
+            <button
+              key={`crumb-${idx}`}
+              onClick={() => handleBreadcrumbClick(idx)}
+              className="hover:underline font-medium"
+            >
+              {crumb}
+            </button>
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* Folder List */}
+      {folders.length > 0 && (
+        <div className="flex flex-wrap gap-3 mb-4">
+          {folders.map(folder => (
+            <button
+              key={folder}
+              onClick={() => handleFolderClick(folder)}
+              className="flex items-center px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 border border-gray-200"
+            >
+              <span className="mr-2">📁</span>
+              <span>{folder}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Controls */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="flex flex-col sm:flex-row gap-4 flex-1">

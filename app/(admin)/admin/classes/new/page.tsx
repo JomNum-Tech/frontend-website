@@ -10,8 +10,11 @@ export default async function CreateClassPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-8">Create New Class Term</h1>
+    <div className="mx-auto py-8 px-12 bg-white rounded-lg shadow-md">
+      <h1 className="text-3xl font-extrabold mb-6 text-left text-gray-800">
+        Create New Class Term
+      </h1>
+    
       <CreateClassForm />
     </div>
   );

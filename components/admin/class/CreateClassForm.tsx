@@ -74,54 +74,57 @@ export function CreateClassForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Create New Class Term</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="mx-auto px-12 py-8 bg-white rounded-2xl shadow-lg border border-blue-100">
+      <h2 className="text-2xl font-bold mb-6 text-blue-700 flex items-center gap-2">
+        <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"></path></svg>
+        Fill out the form below to add a new class term.
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-1">Title</label>
+          <label className="block text-sm font-semibold mb-1 text-blue-700">Title</label>
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">URL Slug</label>
+          <label className="block text-sm font-semibold mb-1 text-blue-700">URL Slug</label>
           <input
             type="text"
             name="slug"
             value={formData.slug}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             placeholder="web-design-fall-2023"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
+          <label className="block text-sm font-semibold mb-1 text-blue-700">Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             rows={4}
             required
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Category</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">Category</label>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white"
               required
             >
               {CLASS_CATEGORIES.map((cat) => (
@@ -133,53 +136,53 @@ export function CreateClassForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Max Students</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">Max Students</label>
             <input
               type="number"
               name="max_students"
               value={formData.max_students}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               min="1"
               required
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Start Date</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">Start Date</label>
             <input
               type="datetime-local"
               name="start_date"
               value={formData.start_date}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">End Date</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">End Date</label>
             <input
               type="datetime-local"
               name="end_date"
               value={formData.end_date}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               required
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Class Day</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">Class Day</label>
             <select
               name="schedule_day"
               value={formData.schedule_day}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white"
               required
             >
               {DAYS_OF_WEEK.map((day) => (
@@ -189,25 +192,25 @@ export function CreateClassForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Start Time</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">Start Time</label>
             <input
               type="time"
               name="schedule_time"
               value={formData.schedule_time}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Duration</label>
+            <label className="block text-sm font-semibold mb-1 text-blue-700">Duration</label>
             <input
               type="text"
               name="schedule_duration"
               value={formData.schedule_duration}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               placeholder="2 hours"
               required
             />
@@ -215,25 +218,33 @@ export function CreateClassForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Telegram Group Link</label>
+          <label className="block text-sm font-semibold mb-1 text-blue-700">Telegram Group Link</label>
           <input
             type="url"
             name="telegram_group_link"
             value={formData.telegram_group_link}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             placeholder="https://t.me/your-telegram-group"
           />
         </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-blue-300"
+          className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition disabled:bg-blue-300 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Creating..." : "Create Class Term"}
+          {isSubmitting ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+              </svg>
+              Creating...
+            </span>
+          ) : "Create Class Term"}
         </button>
       </form>
     </div>
