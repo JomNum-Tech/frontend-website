@@ -46,14 +46,20 @@ export default function FileUploadPage() {
     }
   }
 
+  // Upload files to a specific directory in Vercel Blob (e.g., "admin-uploads/")
   const handleFiles = async (files: File[]) => {
     setError(null)
     setIsUploading(true)
     setUploadProgress(0)
 
+    const directory = "admin-uploads" // Change this to your desired directory
+
     try {
       const uploadPromises = files.map(async (file, index) => {
-        const newBlob = await upload(file.name, file, {
+        // Prefix the file name with the directory
+        const filePath = `${directory}/${file.name}`
+
+        const newBlob = await upload(filePath, file, {
           access: "public",
           handleUploadUrl: "/api/admin/storage/upload",
           multipart: file.size > 20 * 1024 * 1024, // Use multipart for files > 20MB

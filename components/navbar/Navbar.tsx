@@ -8,12 +8,12 @@ import { useUser, useClerk } from "@clerk/nextjs";
 import { SignInModal } from "../auth/SignInModal";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuItem,
 } from "../ui/dropdown-menu";
 import { LogOut, User, Shield } from "lucide-react";
 import { useAdminRole } from "@/hooks/useAdminRole";
@@ -55,6 +55,9 @@ export default function Navbar() {
                             >
                                 Courses
                             </Link>
+
+                            
+
                             <Link
                                 href="/contact"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
@@ -62,11 +65,31 @@ export default function Navbar() {
                                 Contact
                             </Link>
                             <Link
+                                href="/classes"
+                                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                            >
+                                Classes
+
+                            </Link>
+                            <Link
                                 href="/about"
                                 className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                             >
                                 About
                             </Link>
+
+                            
+
+                            <span
+                                className="text-base font-semibold px-4 py-2 rounded-lg cursor-not-allowed bg-gray-100 text-gray-400 flex items-center select-none"
+                                title="Coming Soon"
+                                aria-disabled="true"
+                            >
+                                Community
+                                <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                                    Coming Soon
+                                </span>
+                            </span>
 
                             <div className="ml-6 relative inline-block">
                                 <div className="group relative inline-block">
@@ -103,9 +126,9 @@ export default function Navbar() {
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild className="px-4 py-2 hover:bg-purple-50 focus:bg-purple-100 transition-colors rounded-none font-medium text-purple-800">
                                                             <Link href="/admin/users" className="flex items-center gap-2 w-full">
-                                                                <Shield className="w-8 h-8 text-purple-500 mr-2"/>
+                                                                <Shield className="w-8 h-8 text-purple-500 mr-2" />
                                                                 Admin
-                                                                
+
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     </>
@@ -114,22 +137,22 @@ export default function Navbar() {
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem asChild className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800">
                                                     <Link href="/profile" className="flex items-center gap-2 w-full">
-                                                        <span className="material-symbols-outlined text-blue-500 text-lg"><User className="w-8 h-8 text-blue-500 mr-2"/></span>
+                                                        <span className="material-symbols-outlined text-blue-500 text-lg"><User className="w-8 h-8 text-blue-500 mr-2" /></span>
                                                         Profile
-                                                        <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                                                        {/* <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
                                                             Beta
-                                                        </span>
+                                                        </span> */}
                                                     </Link>
                                                 </DropdownMenuItem>
-                                                
-                                                
-                                                
+
+
+
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem
                                                     onClick={() => signOut()}
                                                     className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
                                                 >
-                                                    <span className="material-symbols-outlined text-red-500 text-lg"><LogOut className="w-8 h-8 text-red-500 mr-2"/></span>
+                                                    <span className="material-symbols-outlined text-red-500 text-lg"><LogOut className="w-8 h-8 text-red-500 mr-2" /></span>
                                                     Logout
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
@@ -184,6 +207,13 @@ export default function Navbar() {
                                     Courses
                                 </Link>
                                 <Link
+                                    href="/classses"
+                                    className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Class
+                                </Link>
+                                <Link
                                     href="/contact"
                                     className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                                     onClick={() => setMobileMenuOpen(false)}
@@ -197,6 +227,17 @@ export default function Navbar() {
                                 >
                                     About
                                 </Link>
+                                
+                                <span
+                                    className="text-base font-semibold px-4 py-2 rounded-lg cursor-not-allowed bg-gray-100 text-gray-400 flex items-center select-none"
+                                    title="Coming Soon"
+                                    aria-disabled="true"
+                                >
+                                    Community
+                                    <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                                        Coming Soon
+                                    </span>
+                                </span>
 
                                 <div className="ml-6 relative w-full">
                                     <div className="relative group w-full">
@@ -231,20 +272,19 @@ export default function Navbar() {
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800">
                                                             <Link href="/profile" className="flex items-center gap-2 w-full">
-                                                                <span className="material-symbols-outlined text-blue-500 text-lg"><User className="w-8 h-8 text-blue-500 mr-2"/></span>
+                                                                <span className="material-symbols-outlined text-blue-500 text-lg"><User className="w-8 h-8 text-blue-500 mr-2" /></span>
                                                                 Profile
-                                                                <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
-                                                            Beta
-                                                        </span>
+
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        
+
+
                                                         {isAdmin && (
                                                             <>
                                                                 <DropdownMenuSeparator />
                                                                 <DropdownMenuItem asChild className="px-4 py-2 hover:bg-purple-50 focus:bg-purple-100 transition-colors rounded-none font-medium text-purple-800">
                                                                     <Link href="/admin" className="flex items-center gap-2 w-full">
-                                                                        <Shield className="w-8 h-8 text-purple-500 mr-2"/>
+                                                                        <Shield className="w-8 h-8 text-purple-500 mr-2" />
                                                                         Admin Dashboard
                                                                         <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-purple-300 text-purple-900 border border-purple-400 uppercase shadow-sm">
                                                                             Admin
@@ -253,28 +293,29 @@ export default function Navbar() {
                                                                 </DropdownMenuItem>
                                                             </>
                                                         )}
-                                                       
+
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem
                                                             onClick={() => signOut()}
                                                             className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
                                                         >
-                                                            <span className="material-symbols-outlined text-red-500 text-lg"><LogOut className="w-8 h-8 text-red-500 mr-2"/></span>
+                                                            <span className="material-symbols-outlined text-red-500 text-lg"><LogOut className="w-8 h-8 text-red-500 mr-2" /></span>
                                                             Logout
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </div>
                                         ) : (
-                                            <Button
-                                                variant="default"
-                                                size="sm"
-                                                className="w-full mt-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
-                                                onClick={() => { setSignInOpen(true); setMobileMenuOpen(false); }}
-                                                aria-describedby="signin-tooltip"
-                                            >
-                                                Sign In
-                                            </Button>
+                                            <Link href="/login" passHref>
+                                                <Button
+                                                    variant="default"
+                                                    size="sm"
+                                                    className="w-full mt-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
+                                                    aria-describedby="signin-tooltip"
+                                                >
+                                                    Sign In
+                                                </Button>
+                                            </Link>
                                         )}
                                     </div>
                                 </div>

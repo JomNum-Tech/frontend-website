@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
-import { MaintenanceBanner } from "@/components/banner/MaintenanceBanner";
 
 import {
   ClerkProvider,
@@ -33,9 +32,7 @@ export default function RootLayout({
           <main className="lg:ml-64">
             {children}
           </main>
-          <div className="fixed z-50 bottom-0 left-0 right-0">
-            <MaintenanceBanner />  
-          </div>
+          
           <Toaster />
         </body>
       </html>

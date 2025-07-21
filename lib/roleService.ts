@@ -7,6 +7,18 @@ import { withRetry } from '@/lib/errors/retryUtils';
  * Service class for managing user roles using Clerk's metadata system
  * Handles role assignment, validation, and statistics
  */
+import { neon } from '@neondatabase/serverless';
+
+const sql = neon(process.env.NEON_DATABASE_URL!);
+
+export async function assignRoleToUser(userId: string, classTermId: string, role: string) {
+  await sql`
+    INSERT INTO user_roles (user_id, class_term_id, role, assigned_at)
+    VALUES (${userId}, ${classTermId}, ${role}, NOW())
+    ON CONFLICT (user_id, class_term_id, role) DO NOTHING
+  `;
+}
+
 export class RoleService {
   private static readonly DEFAULT_ROLE: UserRole = 'normal';
   private static readonly VALID_ROLES: UserRole[] = ['admin', 'student', 'normal'];

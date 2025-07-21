@@ -303,3 +303,15 @@ export function useUsers(options: UseUsersOptions = {}) {
     getRoleColorClass
   };
 }
+
+export function useUserRole(classTermId: string) {
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/user/role?classTermId=${classTermId}`)
+      .then(res => res.json())
+      .then(data => setRole(data.role));
+  }, [classTermId]);
+
+  return role;
+}

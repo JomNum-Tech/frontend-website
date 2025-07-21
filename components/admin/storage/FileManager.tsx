@@ -52,7 +52,11 @@ export function FileManager({ refreshTrigger }: FileManagerProps) {
   const fetchFiles = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/storage/files');
+
+      // Fetch files from a specific directory in Vercel Blob Storage
+      // For example, list all files under the "uploads/" directory
+      const directory = "admin-uploads"; // Change this to your desired directory
+      const response = await fetch(`/api/admin/storage/files?directory=${encodeURIComponent(directory)}`);
       if (!response.ok) {
         throw new Error('Failed to fetch files');
       }

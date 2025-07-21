@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { Users, LogOut, Menu, X, BarChart, HammerIcon, Table, FolderOpen, Book } from "lucide-react";
+import { Users, LogOut, Menu, X, BarChart, HammerIcon, Table, FolderOpen, Book, File, BookA, FormInput } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { AdminSidebarProps, NavItem } from "../../../types/sidebar/types";
@@ -39,7 +39,17 @@ const getNavItems = (role: UserRole): (NavItem & { showComingSoonBadge?: boolean
     {
       href: "/admin/resources",
       label: "Resources",
-      icon: Book,
+      icon: File,
+    },
+    {
+      href: "/admin/classes",
+      label: "Classes",
+      icon: BookA,
+    },
+    {
+      href: "/admin/enrollments",
+      label: "Enrollments",
+      icon: FormInput,
     },
     {
       href: "#",
@@ -166,7 +176,7 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
           </nav>
 
           {/* Logout Section */}
-          <div className="p-4 mb-10 border-t border-gray-700">
+          <div className="p-4 border-t border-gray-700">
             <button
               onClick={handleLogout}
               className="flex items-center w-full px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200 rounded-lg"
