@@ -142,7 +142,7 @@ export default function EnrollmentDetailPage() {
             <p className="mt-1 text-base text-gray-900">{enrollment.date_of_birth}</p>
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Facebook Profile</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Telegram Link</p>
             <p className="mt-1 text-base text-gray-900">
               {enrollment.facebook_link ? (
                 <a href={enrollment.facebook_link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">
@@ -215,7 +215,7 @@ export default function EnrollmentDetailPage() {
         </div>
         <div className="px-8 py-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">ID Card/Passport</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Profile Image</p>
             {enrollment.id_card_url ? (
               <a 
                 href={enrollment.id_card_url} 

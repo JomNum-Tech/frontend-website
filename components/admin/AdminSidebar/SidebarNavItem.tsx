@@ -12,8 +12,9 @@ export function SidebarNavItem({
   label, 
   isActive = false, 
   onClick,
-  requiredRole
-}: SidebarNavItemProps) {
+  requiredRole,
+  count
+}: SidebarNavItemProps & { count?: number }) {
   const { userRole } = useAdminRole();
   
   // Check if the user has access to this navigation item
@@ -34,8 +35,13 @@ export function SidebarNavItem({
     >
       <Icon className="w-5 h-5 mr-3" />
       <span className="font-medium">{label}</span>
+      {typeof count === 'number' && count > 0 && (
+        <Badge variant="secondary" className="ml-auto text-xs bg-blue-600 text-white px-2 py-0.5 min-w-[1.5em] text-center">
+          {count}
+        </Badge>
+      )}
       {requiredRole && (
-        <Badge variant="outline" className="ml-auto text-xs bg-blue-900/30 border-blue-700 text-blue-300">
+        <Badge variant="outline" className="ml-2 text-xs bg-blue-900/30 border-blue-700 text-blue-300">
           {requiredRole}
         </Badge>
       )}

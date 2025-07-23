@@ -68,6 +68,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('user_id');
     const classTermId = searchParams.get('class_term_id');
+    const status = searchParams.get('status');
 
     if (userId && classTermId) {
       // Return the enrollment for this user and class term
@@ -80,10 +81,18 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ enrollment: result[0] });
     }
 
-    // Default: return all enrollments
-    const result = await sql`
-      SELECT * FROM enrollments ORDER BY created_at DESC
-    `;
+    let result;
+    if (status) {
+      // Filter by status if provided
+      result = await sql`
+        SELECT * FROM enrollments WHERE status = ${status} ORDER BY created_at DESC
+      `;
+    } else {
+      // Default: return all enrollments
+      result = await sql`
+        SELECT * FROM enrollments ORDER BY created_at DESC
+      `;
+    }
     return NextResponse.json({ enrollments: result });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

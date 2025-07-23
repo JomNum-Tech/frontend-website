@@ -24,6 +24,7 @@ export function ResourcesList() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [selectedClass, setSelectedClass] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -36,7 +37,43 @@ export function ResourcesList() {
     }
   }, [user]);
 
-  // Tab style for class categories
+  const extractGoogleSlidesId = (url: string): string | null => {
+    // Handle direct presentation URLs
+    const directRegex = /\/presentation\/d\/([a-zA-Z0-9_-]+)/;
+    const directMatch = url.match(directRegex);
+    if (directMatch) return directMatch[1];
+
+    // Handle shareable link URLs
+    const shareableRegex = /\/d\/([a-zA-Z0-9_-]+)/;
+    const shareableMatch = url.match(shareableRegex);
+    if (shareableMatch) return shareableMatch[1];
+
+    // Handle URL shortener links
+    if (url.includes("goo.gl") || url.includes("bit.ly")) {
+      // Note: In a real app, you might want to resolve the short URL first
+      // This is a simplified version that checks for common patterns
+      const shortenerRegex = /[a-zA-Z0-9_-]+$/;
+      const shortenerMatch = url.match(shortenerRegex);
+      if (shortenerMatch) return shortenerMatch[0];
+    }
+
+    return null;
+  };
+
+  const handlePreview = (url: string) => {
+    const slidesId = extractGoogleSlidesId(url);
+    if (slidesId) {
+      setPreviewUrl(`https://docs.google.com/presentation/d/${slidesId}/preview`);
+    } else {
+      // Fallback to original URL if we can't extract ID
+      setPreviewUrl(url);
+    }
+  };
+
+  const closePreview = () => {
+    setPreviewUrl(null);
+  };
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-bold mb-6 text-blue-800 flex items-center gap-2">
@@ -46,6 +83,30 @@ export function ResourcesList() {
         </svg>
         Your Resources
       </h2>
+      
+      {/* Preview Modal */}
+      {previewUrl && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="relative bg-white rounded-lg w-full max-w-6xl h-[90vh]">
+            <button
+              onClick={closePreview}
+              className="absolute -top-10 right-0 text-white hover:text-gray-200 transition"
+              aria-label="Close preview"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <iframe
+              src={previewUrl}
+              className="w-full h-full rounded-lg border-none"
+              allowFullScreen
+              allow="autoplay; fullscreen"
+            />
+          </div>
+        </div>
+      )}
+
       <div className="mb-8">
         <nav className="flex flex-wrap gap-2" aria-label="Tabs">
           {CLASS_CATEGORIES.map((category) => (
@@ -77,7 +138,6 @@ export function ResourcesList() {
           Loading resources...
         </div>
       ) : (() => {
-        // Filter resources by selected class
         const filteredResources =
           selectedClass === "all"
             ? resources
@@ -120,17 +180,29 @@ export function ResourcesList() {
                         )?.label}
                       </span>
                     </div>
-                    <a
-                      href={resource.google_slides_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-blue-600 font-semibold hover:underline hover:text-blue-800 transition"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7v7m-1.5-5.5L10 17m0 0H7a4 4 0 01-4-4v-3" />
-                      </svg>
-                      View Slides
-                    </a>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => handlePreview(resource.google_slides_url)}
+                        className="inline-flex items-center gap-1 text-blue-600 font-semibold hover:underline hover:text-blue-800 transition"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Preview
+                      </button>
+                      <a
+                        href={resource.google_slides_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-blue-600 font-semibold hover:underline hover:text-blue-800 transition"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7v7m-1.5-5.5L10 17m0 0H7a4 4 0 01-4-4v-3" />
+                        </svg>
+                        View Slides
+                      </a>
+                    </div>
                   </div>
                   <p className="text-xs text-gray-400 mt-3">
                     Added on{" "}

@@ -12,6 +12,7 @@ export interface SidebarNavItemProps {
   isActive?: boolean;
   onClick?: () => void;
   requiredRole?: UserRole;
+  count?: number;
 }
 
 export interface NavItem {
@@ -19,6 +20,7 @@ export interface NavItem {
   label: string;
   icon: LucideIcon;
   requiredRole?: UserRole;
+  badgeCount?: number;
 }
 
 export interface AdminUser {

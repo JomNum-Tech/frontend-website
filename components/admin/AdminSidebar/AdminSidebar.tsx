@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { Users, LogOut, Menu, X, BarChart, HammerIcon, Table, FolderOpen, Book, File, BookA, FormInput } from "lucide-react";
+import { Users, LogOut, Menu, X, BarChart, HammerIcon, Table, FolderOpen, File, BookA, FormInput } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { AdminSidebarProps, NavItem } from "../../../types/sidebar/types";
@@ -66,10 +66,21 @@ const getNavItems = (role: UserRole): (NavItem & { showComingSoonBadge?: boolean
 
 export function AdminSidebar({ className }: AdminSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [pendingCount, setPendingCount] = useState<number>(0);
   const pathname = usePathname();
   const { user } = useUser();
   const { signOut } = useClerk();
   const { userRole, getRoleDisplayName, isLoadingRole } = useAdminRole();
+
+  useEffect(() => {
+    // Fetch pending enrollments count
+    fetch("/api/admin/enrollments?status=pending")
+      .then((res) => res.json())
+      .then((data) => {
+        setPendingCount(Array.isArray(data.enrollments) ? data.enrollments.length : 0);
+      })
+      .catch(() => setPendingCount(0));
+  }, []);
 
   const navItems = getNavItems(userRole);
 
@@ -156,6 +167,8 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
                 const label = isComingSoon
                   ? `${item.label} (Coming Soon)`
                   : item.label;
+                // Only pass pendingCount to Enrollments item
+                const count = item.href === "/admin/enrollments" ? pendingCount : undefined;
                 return (
                   <div
                     key={item.href}
@@ -168,6 +181,7 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
                       isActive={pathname === item.href}
                       onClick={closeMobileSidebar}
                       requiredRole={item.requiredRole}
+                      count={count}
                     />
                   </div>
                 );

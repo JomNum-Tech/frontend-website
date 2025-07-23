@@ -134,7 +134,7 @@ export function ClassList() {
             >
               <td className="py-3 px-5">
                 <Link
-                  href={`/admin/classes/${classTerm.slug}`}
+                  href={`/admin/classes/${classTerm.slug}/students`}
                   className="font-semibold text-blue-700 hover:underline hover:text-blue-900 transition"
                 >
                   {classTerm.title}

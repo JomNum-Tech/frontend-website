@@ -6,12 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:migrate": "node db/migrations/run-migrations.js",
+    "db:rollback": "node db/migrations/rollback-migrations.js",
+    "db:migrate:attendance": "node db/migrations/run-attendance-migration.js"
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/nextjs": "^6.25.1",
     "@neondatabase/serverless": "^1.0.1",
+    "dotenv": "^16.3.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.1.10",

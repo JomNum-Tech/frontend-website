@@ -18,7 +18,10 @@ export default function AdminEnrollmentsPage() {
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
 
   useEffect(() => {
-    fetch(`/api/admin/enrollments?status=${filter}`)
+    const url = filter === 'all'
+      ? '/api/admin/enrollments'
+      : `/api/admin/enrollments?status=${filter}`;
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         setEnrollments(data.enrollments || []);
