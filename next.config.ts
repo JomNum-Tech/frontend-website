@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
       "7zg3rv0nfdklwx5q.public.blob.vercel-storage.com",
       "img.clerk.com",
       "randomuser.me",
-      "ijewzjgscgbar55p.public.blob.vercel-storage.com"
+      "ijewzjgscgbar55p.public.blob.vercel-storage.com",
+      "utfs.io"
     ]
   }
 };
