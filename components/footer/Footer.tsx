@@ -40,15 +40,15 @@ function Footer() {
     return (
         <footer className="border-t bg-gradient-to-br from-blue-50 via-white to-blue-100/60 py-16">
             <div className="container mx-auto px-4 md:px-12">
-                <motion.div 
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-10"
+                <motion.div
+                    className="flex flex-row flex-wrap gap-12 md:gap-10 justify-between items-start"
                     variants={container}
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, margin: "-100px" }}
                 >
                     {/* Brand & Description */}
-                    <div>
+                    <div className="min-w-[220px] flex-1">
                         <motion.div 
                             className="flex items-center space-x-4 mb-6"
                             variants={logoAnim}
@@ -75,41 +75,49 @@ function Footer() {
                     </div>
 
                     {/* Courses */}
-                    <motion.div variants={item}>
+                    <motion.div variants={item} className="min-w-[180px] flex-1">
                         <h4 className="font-semibold mb-5 text-blue-800 tracking-wide uppercase text-xs letter-spacing-wider">Courses</h4>
                         <ul className="space-y-2 text-muted-foreground">
                             <li>
-                                <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
+                                <Link href="/courses/web-design" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
                                     Web Design
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
+                                <Link href="/courses/ui-ux-design-fundamentals" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
                                     UI/UX Design
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
+                                <Link href="/courses" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
                                     Java Programming
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
+                                <Link href="/courses" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
                                     Python Programming
                                 </Link>
                             </li>
                         </ul>
                     </motion.div>
 
-                    {/* Support */}
-                    <motion.div variants={item}>
-                        <h4 className="font-semibold mb-5 text-blue-800 tracking-wide uppercase text-xs letter-spacing-wider">Support</h4>
+                    {/* Features */}
+                    <motion.div variants={item} className="min-w-[180px] flex-1">
+                        <h4 className="font-semibold mb-5 text-blue-800 tracking-wide uppercase text-xs letter-spacing-wider">Features</h4>
                         <ul className="space-y-2 text-muted-foreground">
                             <li>
                                 <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
-                                    Help Center
+                                    Available Class
                                 </Link>
                             </li>
+                            
+                        </ul>
+                    </motion.div>
+
+                    {/* Support */}
+                    <motion.div variants={item} className="min-w-[180px] flex-1">
+                        <h4 className="font-semibold mb-5 text-blue-800 tracking-wide uppercase text-xs letter-spacing-wider">Support</h4>
+                        <ul className="space-y-2 text-muted-foreground">
                             <li>
                                 <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
                                     Contact Us
@@ -124,11 +132,11 @@ function Footer() {
                     </motion.div>
 
                     {/* Company */}
-                    <motion.div variants={item}>
+                    <motion.div variants={item} className="min-w-[180px] flex-1">
                         <h4 className="font-semibold mb-5 text-blue-800 tracking-wide uppercase text-xs letter-spacing-wider">Team</h4>
                         <ul className="space-y-2 text-muted-foreground">
                             <li>
-                                <Link href="#" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
+                                <Link href="/about" className="hover:text-blue-600 transition-colors duration-150 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 rounded">
                                     About Us
                                 </Link>
                             </li>

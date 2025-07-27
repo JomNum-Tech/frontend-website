@@ -28,7 +28,7 @@ JomNum Tech's website is designed to:
   - `api/` - API routes for admin, storage, users, roles, etc.
   - `layout.tsx` - Main layout files for each section
 - `components/` - Reusable UI and section components
-  - `about/`, `contact/`, `course/`, `footer/`, `header/`, `homepage/`, `navbar/`, `ui/`, `admin/`, `animation/`, `banner/` - Organized by feature/section
+  - `about/`, `contact/`, `course/`, `footer/`, `header/`, `homepage/`, `navbar/`, `ui/`, `admin/`, `animation/`, `banner/`, `community/` - Organized by feature/section
 - `hooks/` - Custom React hooks (admin role, storage, users, etc.)
 - `lib/` - Utility functions and services (roleService, error handling, etc.)
 - `types/` - TypeScript type definitions (admin, storage, users, etc.)
@@ -52,6 +52,12 @@ JomNum Tech's website is designed to:
 - File upload and management for admin users
 - API endpoints for file operations
 
+### Community Features
+- **Telegram Integration**: Display most active users from your Telegram group
+- **Activity Tracking**: Show daily, weekly, and monthly top contributors
+- **Community Stats**: Real-time member count and activity metrics
+- **Responsive Design**: Beautiful community page with hero section and user rankings
+
 ### Courses & Content
 - Course listing and detail pages
 - About, contact, and FAQ sections
@@ -73,7 +79,17 @@ pnpm install
    # or
 bun install
    ```
-3. **Run the development server:**
+3. **Set up environment variables:**
+   ```bash
+   # Copy the example environment file
+   cp .env.local.example .env.local
+   
+   # Add your Telegram bot configuration (optional)
+   TELEGRAM_BOT_TOKEN=your_bot_token_here
+   TELEGRAM_CHAT_ID=your_chat_id_here
+   ```
+
+4. **Run the development server:**
    ```bash
    npm run dev
    # or
@@ -83,8 +99,33 @@ pnpm dev
    # or
 bun dev
    ```
-4. **Open your browser:**
+5. **Open your browser:**
    Visit [http://localhost:3000](http://localhost:3000)
+
+## 🤖 Telegram Community Setup
+
+To enable the community features with real Telegram data:
+
+1. **Create a Telegram Bot:**
+   - Message @BotFather on Telegram
+   - Create a new bot and get your bot token
+
+2. **Get Your Chat ID:**
+   - Add the bot to your Telegram group
+   - Send a message and visit: `https://api.telegram.org/bot<TOKEN>/getUpdates`
+   - Find your chat ID in the response
+
+3. **Configure Environment Variables:**
+   ```bash
+   TELEGRAM_BOT_TOKEN=your_actual_bot_token
+   TELEGRAM_CHAT_ID=your_actual_chat_id
+   ```
+
+4. **Visit the Community Page:**
+   - Go to `/community` to see the active users section
+   - The page will show mock data if Telegram is not configured
+
+For detailed setup instructions, see [TELEGRAM_SETUP.md](TELEGRAM_SETUP.md).
 
 ## 🤝 Contributing
 

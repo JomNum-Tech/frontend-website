@@ -89,7 +89,7 @@ export default function CloudStorage() {
         <CardHeader className="pb-2 pt-4 px-6">
           <CardTitle className="flex items-center gap-3 text-blue-800 text-lg font-semibold">
             <Cloud className="w-6 h-6 text-blue-500 drop-shadow" />
-            <span>Your Storage</span>
+            <span>Your Drive</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-5 px-6 pb-6">

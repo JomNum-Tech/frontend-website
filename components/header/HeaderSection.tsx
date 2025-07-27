@@ -1,8 +1,10 @@
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Book, Play } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { motion } from "framer-motion";
+
+import Link from "next/link";
 
 // Animation variants
 const container = {
@@ -65,15 +67,16 @@ export default function HeaderSection() {
               variants={container}
             >
               <motion.div variants={item}>
-                <Button
-                  size="lg"
-                  className="text-lg px-8 py-5 rounded-md font-bold bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 shadow-lg transition-all duration-200"
-
+                <Link href="/courses">
+                  <Button
+                    size="lg"
+                    className="text-lg px-8 py-5 rounded-md font-bold bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 shadow-lg transition-all duration-200"
                   
-                >
-                  View Courses
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+                  >
+                    View Courses
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div variants={item}>
                 <Button
@@ -82,42 +85,13 @@ export default function HeaderSection() {
                   className="text-lg px-8 py-5 rounded-md border-blue-500 text-blue-700 hover:bg-blue-50 font-semibold shadow"
                   
                 >
-                  <Play className="mr-2 w-5 h-5" />
-                  Watch Demo
+                  <Book className="mr-2 w-5 h-5" />
+                  Visit Documentation
                 </Button>
               </motion.div>
             </motion.div>
 
-            {/* Rate Number */}
-            <motion.div 
-              className="flex flex-wrap justify-center gap-6 pt-6"
-              variants={container}
-            >
-              <motion.div 
-                variants={statsAnim}
-                className="flex flex-col items-center bg-white/80 rounded-xl px-6 py-4 shadow border border-blue-100 min-w-[110px]"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-extrabold text-blue-700">50+</div>
-                <div className="text-sm text-muted-foreground font-medium">Students</div>
-              </motion.div>
-              <motion.div 
-                variants={statsAnim}
-                className="flex flex-col items-center bg-white/80 rounded-xl px-6 py-4 shadow border border-blue-100 min-w-[110px]"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-extrabold text-yellow-500">4.9<span className="align-super text-lg">★</span></div>
-                <div className="text-sm text-muted-foreground font-medium">Rating</div>
-              </motion.div>
-              <motion.div 
-                variants={statsAnim}
-                className="flex flex-col items-center bg-white/80 rounded-xl px-6 py-4 shadow border border-blue-100 min-w-[110px]"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-extrabold text-green-600">95%</div>
-                <div className="text-sm text-muted-foreground font-medium">Success Rate</div>
-              </motion.div>
-            </motion.div>
+            
           </motion.div>
 
           {/* Right: Hero Image */}
@@ -144,14 +118,14 @@ export default function HeaderSection() {
               />
             </motion.div>
             <motion.div 
-              className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white/95 p-4 rounded-xl shadow-xl border border-blue-100 flex items-center gap-3 z-20 min-w-[220px]"
+              className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white/95 p-4 rounded-xl shadow-xl border border-blue-100 flex items-center gap-3 z-20 min-w-[370px]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               viewport={{ once: true }}
             >
               <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-blue-900">New Course Teaching: <span className="text-primary font-bold">UX/UI</span></span>
+              <span className="text-sm font-semibold text-blue-900">New Course Teaching: <span className="text-primary font-bold">UX/UI & Web Design</span></span>
             </motion.div>
           </motion.div>
         </div>

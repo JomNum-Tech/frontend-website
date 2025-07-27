@@ -3,7 +3,8 @@ import { Poppins } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
-import { MaintenanceBanner } from "@/components/banner/MaintenanceBanner";
+import { TutorialProvider } from "@/components/tutorial/TutorialProvider";
+import { TutorialManager } from "@/components/tutorial/TutorialManager";
 
 import {
   ClerkProvider,
@@ -83,11 +84,13 @@ export default function RootLayout({
         <body
           className={poppins.className}
         >
-          <MaintenanceBanner />
-          <Navbar />
-          {children}
-          <Footer />
-          <Toaster />
+          <TutorialProvider>
+            <Navbar />
+            {children}
+            <Footer />
+            <TutorialManager />
+            <Toaster />
+          </TutorialProvider>
         </body>
       </html>
     </ClerkProvider>

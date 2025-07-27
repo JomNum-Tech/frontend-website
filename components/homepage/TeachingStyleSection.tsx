@@ -141,68 +141,7 @@ export default function TeachingStyleSection() {
                         </Card>
                     </motion.div>
                 </motion.div>
-
-                {/* Testimonial */}
-                <motion.div
-                    variants={testimonialAnim}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                >
-                    <Card className="max-w-3xl mx-auto shadow-xl border-0 bg-gradient-to-br from-blue-100/60 via-white to-white hover:shadow-2xl transition-all duration-300">
-                        <CardContent className="p-8 md:p-12">
-                            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                                <motion.div
-                                    whileHover={{ rotate: 5, scale: 1.05 }}
-                                >
-                                    <Avatar className="w-20 h-20 shadow-lg ring-4 ring-blue-200">
-                                        <AvatarImage src="/placeholder.svg?height=80&width=80" />
-                                        <AvatarFallback>JS</AvatarFallback>
-                                    </Avatar>
-                                </motion.div>
-                                <div className="flex-1">
-                                    <motion.div 
-                                        className="flex items-center mb-3"
-                                        variants={container}
-                                        initial="hidden"
-                                        whileInView="show"
-                                        viewport={{ once: true }}
-                                    >
-                                        {[...Array(5)].map((_, i) => (
-                                            <motion.div 
-                                                key={i}
-                                                variants={starAnim}
-                                                transition={{ delay: i * 0.1 }}
-                                            >
-                                                <Star className="w-6 h-6 fill-yellow-400 text-yellow-400 drop-shadow" />
-                                            </motion.div>
-                                        ))}
-                                    </motion.div>
-                                    <motion.blockquote 
-                                        className="text-lg md:text-xl italic mb-4 text-gray-700"
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        transition={{ delay: 0.5 }}
-                                        viewport={{ once: true }}
-                                    >
-                                        “The live format made all the difference. Being able to ask questions in real-time and see the
-                                        instructor code live helped me understand concepts I had struggled with for months. I landed my first
-                                        developer job within 3 months of completing the bootcamp!”
-                                    </motion.blockquote>
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        transition={{ delay: 0.7 }}
-                                        viewport={{ once: true }}
-                                    >
-                                        <div className="font-semibold text-blue-800">Jessica Smith</div>
-                                        <div className="text-sm text-muted-foreground">Frontend Developer at TechCorp</div>
-                                    </motion.div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </motion.div>
+                
             </div>
         </section>
     )
