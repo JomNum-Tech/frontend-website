@@ -27,7 +27,7 @@ interface Feature {
 const features: Feature[] = [
   {
     icon: <BookOpen className="h-6 w-6" />,
-    title: "Interactive Learning",
+    title: "Online Learning",
     description: "Engage with dynamic courses and hands-on tutorials",
     color: "bg-blue-500/10 text-blue-600"
   },
@@ -39,14 +39,14 @@ const features: Feature[] = [
   },
   {
     icon: <Cloud className="h-6 w-6" />,
-    title: "Cloud Storage",
+    title: "JomNum Drive",
     description: "Store and access your files from anywhere",
     color: "bg-purple-500/10 text-purple-600"
   },
   {
     icon: <Award className="h-6 w-6" />,
-    title: "Certificates",
-    description: "Earn recognized certificates upon completion",
+    title: "Blog",
+    description: "Read and share insightful articles with the community",
     color: "bg-orange-500/10 text-orange-600"
   }
 ];
@@ -82,12 +82,12 @@ export function WelcomeModal({ isOpen, onClose, onStartTutorial }: WelcomeModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden">
+      <DialogContent className="max-w-2xl p-0 overflow-hidden rounded-2xl shadow-2xl border border-blue-200 bg-white">
         <div className="relative">
           {/* Header */}
-          <DialogHeader className="p-6 pb-4 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 relative overflow-hidden">
+          <DialogHeader className="p-8 pb-5 bg-gradient-to-r from-blue-100 via-blue-50 to-white relative overflow-hidden border-b border-blue-200">
             {/* Background decoration */}
-            <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
               <div className="absolute top-4 left-4 text-4xl animate-pulse">🚀</div>
               <div className="absolute top-8 right-8 text-3xl animate-bounce">⭐</div>
               <div className="absolute bottom-4 left-8 text-2xl animate-pulse">💡</div>
@@ -95,9 +95,9 @@ export function WelcomeModal({ isOpen, onClose, onStartTutorial }: WelcomeModalP
             </div>
             
             <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-5">
                 <motion.div 
-                  className="p-3 bg-gradient-to-r from-primary to-purple-600 rounded-xl shadow-lg"
+                  className="p-3 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl shadow-xl border-2 border-blue-400"
                   animate={{ 
                     scale: [1, 1.1, 1],
                     rotate: [0, 5, -5, 0]
@@ -111,41 +111,29 @@ export function WelcomeModal({ isOpen, onClose, onStartTutorial }: WelcomeModalP
                   <Rocket className="h-8 w-8 text-white" />
                 </motion.div>
                 <div>
-                  <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                  <DialogTitle className="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent drop-shadow-sm">
                     Welcome to JomNum-Tech! 🎉
                   </DialogTitle>
-                  <p className="text-muted-foreground mt-1 text-lg">
+                  <p className="text-blue-700/80 mt-1 text-lg font-medium">
                     Your journey to mastering technology starts here ✨
                   </p>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleSkip}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="h-4 w-4" />
-              </Button>
             </div>
           </DialogHeader>
 
           {/* Content */}
-          <div className="p-6 space-y-6">
+          <div className="p-8 space-y-8 bg-white">
             {/* Platform Overview */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-3">
               <div className="text-6xl animate-bounce">🌟</div>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-blue-400 bg-clip-text text-transparent">
                 Discover What Makes Us Special
               </h3>
-              <p className="text-muted-foreground max-w-lg mx-auto text-lg leading-relaxed">
-                Join <span className="font-semibold text-primary">1000+</span> learners who are advancing their careers with our 
-                comprehensive courses in programming, mathematics, and technology. 🚀
-              </p>
             </div>
 
             {/* Features Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-5">
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
@@ -153,25 +141,25 @@ export function WelcomeModal({ isOpen, onClose, onStartTutorial }: WelcomeModalP
                   animate={{ 
                     opacity: 1, 
                     y: 0,
-                    scale: currentFeature === index ? 1.05 : 1
+                    scale: currentFeature === index ? 1.07 : 1
                   }}
                   transition={{ 
                     delay: index * 0.1,
                     duration: 0.3
                   }}
                 >
-                  <Card className={`h-full transition-all duration-300 ${
+                  <Card className={`h-full transition-all duration-300 rounded-xl border ${
                     currentFeature === index 
-                      ? 'ring-2 ring-primary shadow-lg' 
-                      : 'hover:shadow-md'
+                      ? 'ring-2 ring-blue-500 shadow-xl border-blue-200 bg-blue-50/60'
+                      : 'hover:shadow-lg border-blue-100 bg-white'
                   }`}>
-                    <CardContent className="p-4 text-center space-y-3">
-                      <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mx-auto`}>
+                    <CardContent className="p-5 text-center space-y-3">
+                      <div className={`w-12 h-12 rounded-lg ${feature.color.replace('primary', 'blue-500/10 text-blue-600')} flex items-center justify-center mx-auto shadow-sm`}>
                         {feature.icon}
                       </div>
                       <div>
-                        <h4 className="font-semibold">{feature.title}</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-blue-800">{feature.title}</h4>
+                        <p className="text-sm text-blue-600/80">
                           {feature.description}
                         </p>
                       </div>
@@ -181,57 +169,13 @@ export function WelcomeModal({ isOpen, onClose, onStartTutorial }: WelcomeModalP
               ))}
             </div>
 
-            {/* Stats */}
-            <div className="flex justify-center gap-8 py-6 border-t border-b bg-gradient-to-r from-blue-50/50 to-purple-50/50 rounded-lg">
-              <motion.div 
-                className="text-center"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                  50+ 📚
-                </div>
-                <div className="text-sm text-muted-foreground font-medium">Courses</div>
-              </motion.div>
-              <motion.div 
-                className="text-center"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
-                  1000+ 👥
-                </div>
-                <div className="text-sm text-muted-foreground font-medium">Students</div>
-              </motion.div>
-              <motion.div 
-                className="text-center"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-                  95% ⭐
-                </div>
-                <div className="text-sm text-muted-foreground font-medium">Success Rate</div>
-              </motion.div>
-            </div>
-
             {/* Call to Action */}
-            <div className="space-y-6">
-              <div className="text-center">
-                <div className="text-4xl mb-3">🎯</div>
-                <h4 className="text-xl font-bold mb-2">Ready to Get Started?</h4>
-                <p className="text-muted-foreground">
-                  Take a quick <span className="font-semibold text-primary">2-minute interactive tour</span> to learn how to navigate the platform and discover all amazing features! 🚀
-                </p>
-              </div>
-              
-              <div className="flex gap-3">
+            <div className="space-y-4">
+              <div className="flex gap-4">
                 <motion.div className="flex-1">
                   <Button
                     onClick={handleStartTutorial}
-                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white font-semibold py-3 text-lg shadow-lg"
-                    
-                    
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white font-semibold py-3 text-lg shadow-lg rounded-lg border-2 border-blue-500 transition-all duration-200"
                   >
                     <Play className="h-5 w-5" />
                     Start Interactive Tour ✨
@@ -241,22 +185,12 @@ export function WelcomeModal({ isOpen, onClose, onStartTutorial }: WelcomeModalP
                   <Button
                     variant="outline"
                     onClick={handleSkip}
-                    className="w-full flex items-center justify-center gap-2 py-3 text-lg border-2 hover:bg-muted/50"
-                    
+                    className="w-full flex items-center justify-center gap-2 py-3 text-lg border-2 border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 rounded-lg transition-all duration-200"
                   >
                     Skip for Now
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </motion.div>
-              </div>
-              
-              <div className="text-center space-y-2">
-                <Badge variant="secondary" className="text-sm px-4 py-2 bg-green-100 text-green-800 border-green-200">
-                  ⏱️ Takes only 2 minutes • 🎮 Interactive • 🎯 Personalized
-                </Badge>
-                <p className="text-xs text-muted-foreground">
-                  Skip anytime • No registration required for tour
-                </p>
               </div>
             </div>
           </div>
