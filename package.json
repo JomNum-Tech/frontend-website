@@ -21,7 +21,13 @@
     "test:deployment": "node test-deployment-api.js",
     "verify:github": "node verify-github-setup.js",
     "test:paas": "node test-paas-api.js",
-    "create:test-zip": "node create-test-zip.js"
+    "create:test-zip": "node create-test-zip.js",
+    "init:blog": "node scripts/init-blog-db.js",
+    "check:blog": "node scripts/check-blog-data.js",
+    "upgrade:blog": "node scripts/upgrade-blog-db.js",
+    "test:blog": "node scripts/test-blog-feed.js",
+    "test:blog-functionality": "node scripts/test-blog-functionality.js",
+    "test:api-routes": "node scripts/test-api-routes.js"
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.1.6",

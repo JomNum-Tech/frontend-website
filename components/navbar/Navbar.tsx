@@ -90,6 +90,17 @@ export default function Navbar() {
                 Community
               </Link>
 
+              <Link
+                href="/blog"
+                data-tutorial="blog"
+                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+              >
+                Blog
+                <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                  Beta
+                </span>
+              </Link>
+
               {/* Tutorial Help Menu */}
               <TutorialHelpMenu variant="dropdown" trigger="button" />
 
@@ -221,6 +232,31 @@ export default function Navbar() {
                           </Link>
                         </DropdownMenuItem>
 
+                        <DropdownMenuItem
+                          asChild
+                          className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
+                        >
+                          <Link
+                            href="/blog/my-posts"
+                            className="flex items-center gap-2 w-full"
+                          >
+                            <svg
+                              className="w-4 h-4 text-blue-500"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                              />
+                            </svg>
+                            My Blog Posts
+                          </Link>
+                        </DropdownMenuItem>
+
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           onClick={() => signOut()}
@@ -318,6 +354,17 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Community
+                </Link>
+
+                <Link
+                  href="/blog"
+                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blog
+                  <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                    Beta
+                  </span>
                 </Link>
 
                 <div className="ml-6 relative w-full">

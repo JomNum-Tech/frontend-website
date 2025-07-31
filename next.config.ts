@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
       "randomuser.me",
       "ijewzjgscgbar55p.public.blob.vercel-storage.com",
       "utfs.io",
-      "avatars.githubusercontent.com"
+      "avatars.githubusercontent.com",
+      "images.unsplash.com"
     ]
   }
 };
