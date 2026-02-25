@@ -5,6 +5,8 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { motion } from "framer-motion";
 
+import Link from "next/link";
+
 // Animation variants
 const container = {
   hidden: { opacity: 0 },
@@ -67,23 +69,27 @@ export default function CTASection() {
                                     variants={container}
                                 >
                                     <motion.div variants={buttonAnim}>
-                                        <Button
-                                            size="lg"
-                                            variant="default"
-                                            className="text-lg px-12 py-5 rounded-lg border border-1 border-blue-400 font-bold bg-blue-400 hover:bg-blue-400 shadow-2xl transition-all duration-200 flex items-center justify-center focus:ring-2 focus:ring-white-500"
-                                        >
-                                            <Globe className="mr-3 w-6 h-6" />
-                                            <span className="tracking-wide">Browse Courses</span>
-                                        </Button>
+                                        <Link href="/courses">
+                                            <Button
+                                                size="lg"
+                                                variant="default"
+                                                className="text-lg px-12 py-5 rounded-lg border border-1 border-blue-400 font-bold bg-blue-400 hover:bg-blue-400 shadow-2xl transition-all duration-200 flex items-center justify-center focus:ring-2 focus:ring-white-500"
+                                            >
+                                                <Globe className="mr-3 w-6 h-6" />
+                                                <span className="tracking-wide">Browse Courses</span>
+                                            </Button>
+                                        </Link>
                                     </motion.div>
                                     <motion.div variants={buttonAnim}>
-                                        <Button
-                                            size="lg"
-                                            variant="outline"
-                                            className="text-lg px-12 py-5 rounded-lg border-1 border-yellow-300 text-yellow-300 bg-white/10 hover:bg-yellow-300 hover:text-primary font-bold shadow-2xl transition-all duration-200 focus:ring-2 focus:ring-yellow-200"
-                                        >
-                                            <span className="tracking-wide">Contact For Learning</span>
-                                        </Button>
+                                        <Link href="/contact">
+                                            <Button
+                                                size="lg"
+                                                variant="outline"
+                                                className="text-lg px-12 py-5 rounded-lg border-1 border-yellow-300 text-yellow-300 bg-white/10 hover:bg-yellow-300 hover:text-primary font-bold shadow-2xl transition-all duration-200 focus:ring-2 focus:ring-yellow-200"
+                                            >
+                                                <span className="tracking-wide">Contact For Learning</span>
+                                            </Button>
+                                        </Link>
                                     </motion.div>
                                 </motion.div>
                             </CardContent>
