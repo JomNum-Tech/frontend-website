@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Kantumruy_Pro } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/navbar/Navbar";
-import Footer from "@/components/footer/Footer";
-import { TutorialProvider } from "@/components/tutorial/TutorialProvider";
-import { TutorialManager } from "@/components/tutorial/TutorialManager";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 
-const poppins = Poppins({
-  subsets: ["latin"],
+const kantumruy = Kantumruy_Pro({
+  subsets: ["latin", "khmer"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+  variable: "--font-kantumruy",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +28,7 @@ export const metadata: Metadata = {
     "Cambodia",
   ],
   authors: [
-    { name: "JomNum-Tech Team", url: "https://jomnumtech.naktech.pro" },
+    { name: "JomNum-Tech Team", url: "https://jomnumtech.netlify.app" },
   ],
   creator: "JomNum-Tech Team",
   openGraph: {
@@ -83,14 +80,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={poppins.className}>
-          <TutorialProvider>
-            <Navbar />
-            {children}
-            <Footer />
-            <TutorialManager />
-            <Toaster />
-          </TutorialProvider>
+        <body className={kantumruy.className}>
+
+          <Navbar />
+          {children}
+          <Toaster />
+
         </body>
       </html>
     </ClerkProvider>

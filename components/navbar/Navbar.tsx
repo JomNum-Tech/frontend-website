@@ -15,9 +15,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
-import { LogOut, User, Shield } from "lucide-react";
+import { LogOut, User, Shield, FolderOpen, PenLine } from "lucide-react";
 import { useAdminRole } from "@/hooks/useAdminRole";
-import { TutorialHelpMenu } from "@/components/tutorial/TutorialHelpMenu";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,505 +25,273 @@ export default function Navbar() {
   const { signOut } = useClerk();
   const { isAdmin } = useAdminRole();
 
+  const navLinks = [
+    { href: "/courses", label: "Courses", tutorial: "courses" },
+    { href: "/contact", label: "Contact" },
+    // { href: "/classes", label: "Classes", tutorial: "classes" },
+    { href: "/about", label: "About" },
+    // { href: "/community", label: "Community", tutorial: "community" },
+    // { href: "/blog", label: "Blog", tutorial: "blog" },
+  ];
+
+  const userInitial =
+    user?.firstName?.[0] ||
+    user?.emailAddresses?.[0]?.emailAddress?.[0] ||
+    "U";
+  const userName =
+    user?.fullName || user?.emailAddresses?.[0]?.emailAddress || "User";
+  const userEmail = user?.emailAddresses?.[0]?.emailAddress;
+
   return (
     <>
-      <header className="border-b bg-white shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 md:px-12 py-3">
+      <header className="border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="container mx-auto px-3 md:px-8 py-2">
           <nav className="flex items-center justify-between">
             {/* Logo & Brand */}
-            <div className="flex items-center space-x-3">
-              <Link
-                href="/"
-                className="flex items-center space-x-3 group"
-                data-tutorial="logo"
-              >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center bg-white/80 border border-gray-200 transition-all duration-200 group-hover:scale-105">
-                  <Image
-                    src="https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/JomNumTech-El1XBQ46OC1eci4SAFFyiOAM6nikG1.png"
-                    height={48}
-                    width={48}
-                    alt="Logo"
-                    className="rounded-xl"
-                  />
-                </div>
-                <span className="text-xl md:text-2xl font-extrabold text-blue-700 tracking-tight drop-shadow-sm group-hover:text-blue-900 transition-colors duration-200">
-                  JomNum-Tech
-                </span>
-              </Link>
-            </div>
+            <Link
+              href="/"
+              className="flex items-center space-x-2 group"
+              data-tutorial="logo"
+            >
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center border border-gray-200 transition-transform duration-20">
+                <Image
+                  src="https://7zg3rv0nfdklwx5q.public.blob.vercel-storage.com/jomnum-tech/JomNumTech-El1XBQ46OC1eci4SAFFyiOAM6nikG1.png"
+                  height={32}
+                  width={32}
+                  alt="JomNum-Tech Logo"
+                  className="rounded-md"
+                />
+              </div>
+              <span className="text-md md:text-md text-gray-900 tracking-tight group-hover:text-blue-600 transition-colors duration-200">
+                JomNum-Tech
+              </span>
+            </Link>
+
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-2">
-              <Link
-                href="/courses"
-                data-tutorial="courses"
-                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-              >
-                Courses
-              </Link>
+            <div className="hidden md:flex items-center gap-0.5">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  data-tutorial={link.tutorial}
+                  className="text-xs font-medium text-gray-600 px-2.5 py-1 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  {link.label}
+                </Link>
+              ))}
 
-              <Link
-                href="/contact"
-                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-              >
-                Contact
-              </Link>
-              <Link
-                href="/classes"
-                data-tutorial="classes"
-                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-              >
-                Classes
-              </Link>
-              <Link
-                href="/about"
-                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-              >
-                About
-              </Link>
+              <div className="ml-3">
+                {isLoaded && isSignedIn ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full">
+                        <Avatar className="w-7 h-7 ring-2 ring-gray-100 hover:ring-blue-200 transition-all duration-150">
+                          <AvatarImage src={user?.imageUrl} alt={userName} />
+                          <AvatarFallback className="bg-blue-50 text-blue-700 text-sm font-semibold">
+                            {userInitial}
+                          </AvatarFallback>
+                        </Avatar>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-52 mt-2 rounded-lg mr-8 shadow-lg border border-gray-200 bg-white p-0">
+                      {/* User info header */}
+                      <DropdownMenuLabel className="px-3 py-2 border-b border-gray-100">
+                        <div className="flex items-center gap-2">
+                          <Avatar className="w-7 h-7">
+                            <AvatarImage src={user?.imageUrl} alt={userName} />
+                            <AvatarFallback className="bg-blue-50 text-blue-700 text-xs font-semibold">
+                              {userInitial}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold text-gray-900 truncate">
+                              {userName}
+                            </p>
+                            <p className="text-[11px] text-gray-500 truncate">
+                              {userEmail}
+                            </p>
+                          </div>
+                        </div>
+                      </DropdownMenuLabel>
 
-              <Link
-                href="/community"
-                data-tutorial="community"
-                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                      {isAdmin && (
+                        <>
+                          <DropdownMenuSeparator className="my-0" />
+                          <DropdownMenuItem asChild className="px-3 py-2 hover:bg-purple-50 focus:bg-purple-50 text-xs font-medium text-purple-700">
+                            <Link href="/admin/users" className="flex items-center gap-2 w-full">
+                              <Shield className="w-3.5 h-3.5 text-purple-500" />
+                              Admin
+                            </Link>
+                          </DropdownMenuItem>
+                        </>
+                      )}
+
+                      <DropdownMenuSeparator className="my-0" />
+                      <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 focus:bg-gray-50 text-xs font-medium text-gray-700">
+                        <Link href="/profile?tab=profile" className="flex items-center gap-2 w-full">
+                          <User className="w-3.5 h-3.5 text-gray-400" />
+                          Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 focus:bg-gray-50 text-xs font-medium text-gray-700">
+                        <Link href="/profile?tab=security" className="flex items-center gap-2 w-full">
+                          <Shield className="w-3.5 h-3.5 text-gray-400" />
+                          Security
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 focus:bg-gray-50 text-xs font-medium text-gray-700">
+                        <Link href="/profile?tab=storage" className="flex items-center gap-2 w-full">
+                          <FolderOpen className="w-3.5 h-3.5 text-gray-400" />
+                          JomNum Drive
+                          <span className="ml-auto px-1 py-0.5 text-[9px] font-semibold rounded bg-emerald-100 text-emerald-700 uppercase">
+                            New
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 focus:bg-gray-50 text-xs font-medium text-gray-700">
+                        <Link href="/blog/my-posts" className="flex items-center gap-2 w-full">
+                          <PenLine className="w-3.5 h-3.5 text-gray-400" />
+                          My Blog Posts
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuSeparator className="my-0" />
+                      <DropdownMenuItem
+                        onClick={() => signOut()}
+                        className="px-3 py-2 hover:bg-red-50 focus:bg-red-50 rounded-b-lg text-xs font-medium text-red-600 flex items-center gap-2"
+                      >
+                        <LogOut className="w-3.5 h-3.5 text-red-400" />
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link href="/login" data-tutorial="signin">
+                    <Button
+                      size="sm"
+                      className="px-3 py-1 rounded-md text-[11px] hover:cursor-pointer font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all duration-150 h-7"
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <svg
+                className="w-6 h-6 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Community
-              </Link>
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                )}
+              </svg>
+            </button>
+          </nav>
 
-              <Link
-                href="/blog"
-                data-tutorial="blog"
-                className="text-base font-semibold px-4 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-              >
-                Blog
-                <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
-                  Beta
-                </span>
-              </Link>
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-2 bg-white rounded-lg shadow-lg border border-gray-200 py-2 px-3 absolute left-4 right-4 top-[52px] z-40">
+              <nav className="flex flex-col gap-0.5">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-xs font-medium text-gray-600 px-2.5 py-2 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
 
-              {/* Tutorial Help Menu */}
-              <TutorialHelpMenu variant="dropdown" trigger="button" />
-
-              <div className="ml-6 relative inline-block">
-                <div className="group relative inline-block">
+                <div className="border-t border-gray-100 mt-2 pt-2">
                   {isLoaded && isSignedIn ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button className="focus:outline-none">
-                          <Avatar>
-                            <AvatarImage
-                              src={user?.imageUrl}
-                              alt={
-                                user?.fullName ||
-                                user?.emailAddresses?.[0]?.emailAddress ||
-                                "User"
-                              }
-                            />
-                            <AvatarFallback>
-                              {user?.firstName?.[0] ||
-                                user?.emailAddresses?.[0]?.emailAddress?.[0] ||
-                                "U"}
+                        <button className="flex items-center gap-2 w-full px-2.5 py-2 rounded-md hover:bg-gray-50 transition-colors">
+                          <Avatar className="w-6 h-6">
+                            <AvatarImage src={user?.imageUrl} alt={userName} />
+                            <AvatarFallback className="bg-blue-50 text-blue-700 text-[10px] font-semibold">
+                              {userInitial}
                             </AvatarFallback>
                           </Avatar>
+                          <span className="text-xs font-medium text-gray-700 truncate">{userName}</span>
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-64 mt-4 rounded-xl mr-8 shadow-xl border border-blue-100 bg-white/95 p-0">
-                        <DropdownMenuLabel className="flex flex-col items-start gap-2 px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-white rounded-t-xl">
-                          <div className="flex items-center gap-3">
-                            <Avatar className="w-10 h-10">
-                              <AvatarImage
-                                src={user?.imageUrl}
-                                alt={
-                                  user?.fullName ||
-                                  user?.emailAddresses?.[0]?.emailAddress ||
-                                  "User"
-                                }
-                              />
-                              <AvatarFallback>
-                                {user?.firstName?.[0] ||
-                                  user?.emailAddresses?.[0]
-                                    ?.emailAddress?.[0] ||
-                                  "U"}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <span className="font-semibold text-base text-blue-900">
-                                {user?.fullName ||
-                                  user?.emailAddresses?.[0]?.emailAddress ||
-                                  "User"}
-                              </span>
-                              <div className="text-xs text-gray-500">
-                                {user?.emailAddresses?.[0]?.emailAddress}
-                              </div>
-                            </div>
-                          </div>
+                      <DropdownMenuContent className="w-48 rounded-lg shadow-lg border border-gray-200 bg-white p-0">
+                        <DropdownMenuLabel className="px-3 py-2 border-b border-gray-100">
+                          <p className="text-xs font-semibold text-gray-900 truncate">{userName}</p>
+                          <p className="text-[11px] text-gray-500 truncate">{userEmail}</p>
                         </DropdownMenuLabel>
-
-                        {isAdmin && (
-                          <>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              asChild
-                              className="px-4 py-2 hover:bg-purple-50 focus:bg-purple-100 transition-colors rounded-none font-medium text-purple-800"
-                            >
-                              <Link
-                                href="/admin/users"
-                                className="flex items-center gap-2 w-full"
-                              >
-                                <Shield className="w-8 h-8 text-purple-500 mr-2" />
-                                Admin
-                              </Link>
-                            </DropdownMenuItem>
-                          </>
-                        )}
-
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          asChild
-                          className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                        >
-                          <Link
-                            href="/profile?tab=profile"
-                            className="flex items-center gap-2 w-full"
-                          >
-                            <User className="w-4 h-4 text-blue-500" />
+                        <DropdownMenuSeparator className="my-0" />
+                        <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 text-xs font-medium text-gray-700">
+                          <Link href="/profile?tab=profile" className="flex items-center gap-2 w-full">
+                            <User className="w-3.5 h-3.5 text-gray-400" />
                             Profile
                           </Link>
                         </DropdownMenuItem>
-
-                        <DropdownMenuItem
-                          asChild
-                          className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                        >
-                          <Link
-                            href="/profile?tab=security"
-                            className="flex items-center gap-2 w-full"
-                          >
-                            <Shield className="w-4 h-4 text-blue-500" />
+                        <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 text-xs font-medium text-gray-700">
+                          <Link href="/profile?tab=security" className="flex items-center gap-2 w-full">
+                            <Shield className="w-3.5 h-3.5 text-gray-400" />
                             Security
                           </Link>
                         </DropdownMenuItem>
-
-                        <DropdownMenuItem
-                          asChild
-                          className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                        >
-                          <Link
-                            href="/profile?tab=storage"
-                            className="flex items-center gap-2 w-full"
-                          >
-                            <svg
-                              className="w-4 h-4 text-blue-500"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                              />
-                            </svg>
+                        <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 text-xs font-medium text-gray-700">
+                          <Link href="/profile?tab=storage" className="flex items-center gap-2 w-full">
+                            <FolderOpen className="w-3.5 h-3.5 text-gray-400" />
                             JomNum Drive
-                            <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
+                            <span className="ml-auto px-1 py-0.5 text-[9px] font-semibold rounded bg-emerald-100 text-emerald-700 uppercase">
                               New
                             </span>
                           </Link>
                         </DropdownMenuItem>
-
-                        <DropdownMenuItem
-                          asChild
-                          className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                        >
-                          <Link
-                            href="/blog/my-posts"
-                            className="flex items-center gap-2 w-full"
-                          >
-                            <svg
-                              className="w-4 h-4 text-blue-500"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                              />
-                            </svg>
+                        <DropdownMenuItem asChild className="px-3 py-2 hover:bg-gray-50 text-xs font-medium text-gray-700">
+                          <Link href="/blog/my-posts" className="flex items-center gap-2 w-full">
+                            <PenLine className="w-3.5 h-3.5 text-gray-400" />
                             My Blog Posts
                           </Link>
                         </DropdownMenuItem>
-
-                        <DropdownMenuSeparator />
+                        {isAdmin && (
+                          <>
+                            <DropdownMenuSeparator className="my-0" />
+                            <DropdownMenuItem asChild className="px-3 py-2 hover:bg-purple-50 text-xs font-medium text-purple-700">
+                              <Link href="/admin/users" className="flex items-center gap-2 w-full">
+                                <Shield className="w-3.5 h-3.5 text-purple-500" />
+                                Admin Dashboard
+                              </Link>
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                        <DropdownMenuSeparator className="my-0" />
                         <DropdownMenuItem
                           onClick={() => signOut()}
-                          className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
+                          className="px-3 py-2 hover:bg-red-50 rounded-b-lg text-xs font-medium text-red-600 flex items-center gap-2"
                         >
-                          <LogOut className="w-4 h-4 text-red-500" />
+                          <LogOut className="w-3.5 h-3.5 text-red-400" />
                           Logout
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   ) : (
-                    <Link href="/login" data-tutorial="signin">
+                    <Link href="/login" passHref>
                       <Button
-                        variant="default"
                         size="sm"
-                        className="ml-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
-                        aria-describedby="signin-tooltip"
+                        className="w-full mt-1 px-4 py-1.5 rounded-md text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all duration-150"
                       >
                         Sign In
                       </Button>
                     </Link>
                   )}
-                </div>
-              </div>
-            </div>
-            {/* Mobile Nav */}
-            <div className="md:hidden flex items-center">
-              <button
-                aria-label="Open menu"
-                className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                <svg
-                  className="w-7 h-7 text-blue-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {mobileMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 8h16M4 16h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </nav>
-          {/* Mobile Menu Dropdown */}
-          {mobileMenuOpen && (
-            <div className="md:hidden mt-3 bg-white rounded-xl shadow-lg border border-blue-100 py-4 px-6 absolute left-0 right-0 top-[70px] z-40 mx-4">
-              <nav className="flex flex-col space-y-2">
-                <Link
-                  href="/courses"
-                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Courses
-                </Link>
-                <Link
-                  href="/classses"
-                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Class
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-                <Link
-                  href="/about"
-                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About
-                </Link>
-
-                <Link
-                  href="/community"
-                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Community
-                </Link>
-
-                <Link
-                  href="/blog"
-                  className="text-base font-semibold px-3 py-2 rounded-lg hover:bg-blue-100/60 hover:text-blue-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Blog
-                  <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
-                    Beta
-                  </span>
-                </Link>
-
-                <div className="ml-6 relative w-full">
-                  <div className="relative group w-full">
-                    {isLoaded && isSignedIn ? (
-                      <div className="flex justify-center w-full mt-2">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <button className="focus:outline-none">
-                              <Avatar>
-                                <AvatarImage
-                                  src={user?.imageUrl}
-                                  alt={
-                                    user?.fullName ||
-                                    user?.emailAddresses?.[0]?.emailAddress ||
-                                    "User"
-                                  }
-                                />
-                                <AvatarFallback>
-                                  {user?.firstName?.[0] ||
-                                    user?.emailAddresses?.[0]
-                                      ?.emailAddress?.[0] ||
-                                    "U"}
-                                </AvatarFallback>
-                              </Avatar>
-                            </button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-64 mt-2 rounded-xl shadow-xl border border-blue-100 bg-white/95 p-0">
-                            <DropdownMenuLabel className="flex flex-col items-start gap-2 px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-white rounded-t-xl">
-                              <div className="flex items-center gap-3">
-                                <Avatar className="w-10 h-10">
-                                  <AvatarImage
-                                    src={user?.imageUrl}
-                                    alt={
-                                      user?.fullName ||
-                                      user?.emailAddresses?.[0]?.emailAddress ||
-                                      "User"
-                                    }
-                                  />
-                                  <AvatarFallback>
-                                    {user?.firstName?.[0] ||
-                                      user?.emailAddresses?.[0]
-                                        ?.emailAddress?.[0] ||
-                                      "U"}
-                                  </AvatarFallback>
-                                </Avatar>
-                                <div>
-                                  <span className="font-semibold text-base text-blue-900">
-                                    {user?.fullName ||
-                                      user?.emailAddresses?.[0]?.emailAddress ||
-                                      "User"}
-                                  </span>
-                                  <div className="text-xs text-gray-500">
-                                    {user?.emailAddresses?.[0]?.emailAddress}
-                                  </div>
-                                </div>
-                              </div>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              asChild
-                              className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                            >
-                              <Link
-                                href="/profile?tab=profile"
-                                className="flex items-center gap-2 w-full"
-                              >
-                                <User className="w-4 h-4 text-blue-500" />
-                                Profile
-                              </Link>
-                            </DropdownMenuItem>
-
-                            <DropdownMenuItem
-                              asChild
-                              className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                            >
-                              <Link
-                                href="/profile?tab=security"
-                                className="flex items-center gap-2 w-full"
-                              >
-                                <Shield className="w-4 h-4 text-blue-500" />
-                                Security
-                              </Link>
-                            </DropdownMenuItem>
-
-                            <DropdownMenuItem
-                              asChild
-                              className="px-4 py-2 hover:bg-blue-50 focus:bg-blue-100 transition-colors rounded-none font-medium text-gray-800"
-                            >
-                              <Link
-                                href="/profile?tab=storage"
-                                className="flex items-center gap-2 w-full"
-                              >
-                                <svg
-                                  className="w-4 h-4 text-blue-500"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                                  />
-                                </svg>
-                                JomNum Drive
-                                <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-yellow-300 text-yellow-900 border border-yellow-400 uppercase shadow-sm">
-                                  New
-                                </span>
-                              </Link>
-                            </DropdownMenuItem>
-
-                            {isAdmin && (
-                              <>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem
-                                  asChild
-                                  className="px-4 py-2 hover:bg-purple-50 focus:bg-purple-100 transition-colors rounded-none font-medium text-purple-800"
-                                >
-                                  <Link
-                                    href="/admin"
-                                    className="flex items-center gap-2 w-full"
-                                  >
-                                    <Shield className="w-8 h-8 text-purple-500 mr-2" />
-                                    Admin Dashboard
-                                    <span className="ml-2 px-2 py-0.5 text-xs font-bold rounded bg-purple-300 text-purple-900 border border-purple-400 uppercase shadow-sm">
-                                      Admin
-                                    </span>
-                                  </Link>
-                                </DropdownMenuItem>
-                              </>
-                            )}
-
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={() => signOut()}
-                              className="px-4 py-2 hover:bg-red-50 focus:bg-red-100 transition-colors rounded-b-xl font-medium text-red-600 flex items-center gap-2"
-                            >
-                              <span className="material-symbols-outlined text-red-500 text-lg">
-                                <LogOut className="w-8 h-8 text-red-500 mr-2" />
-                              </span>
-                              Logout
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    ) : (
-                      <Link href="/login" passHref>
-                        <Button
-                          variant="default"
-                          size="sm"
-                          className="w-full mt-2 px-6 py-2 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white shadow focus:ring-2 focus:ring-blue-300 transition-all duration-150"
-                          aria-describedby="signin-tooltip"
-                        >
-                          Sign In
-                        </Button>
-                      </Link>
-                    )}
-                  </div>
                 </div>
               </nav>
             </div>
